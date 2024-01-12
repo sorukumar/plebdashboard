@@ -1,81 +1,88 @@
-
 <html>
 
-  <head>
-    <title>PlebDashboard - Visualizing Lightning Network</title>
-  </head>
-  
+<head>
+  <title>PlebDashboard - Visualizing Lightning Network</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    p {
+      text-align: left;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+  </style>
+</head>
+
 <body>
 
-<h2>Visualizing Lightning Network</h2>
+  <h2>Visualizing Lightning Network</h2>
 
+  <p>PlebDashboard is an open-source dashboard for the Lightning network. Our goal is to create visualizations and views that bring interesting insights. Here is what you'll get in the dashboard:</p>
 
-<table>
-  <tr>
-    <th>Visualization</th>
-    <th>What is it</th>
-    <th>How to read it</th>
-  </tr>
-  <tr>
-    <td><a href="v0%3A%20for%20feedback/Nodevisualization.html" target="_blank">Node Visualization</a></td>
-    <td>Nodes Plotted against capacity and Channel Count. It is an information-rich interactive visualization.</td>
-    <td>wip</td>
-  </tr>
-  <tr>
-    <td><a href="v0%3A%20for%20feedback/NodeDistbycapacity_visualization.html" target="_blank">Distribution of Nodes by Capacity</a></td>
-    <td>Count of nodes by Capacity buckets.</td>
-    <td>wip</td>
-  </tr>
-  <tr>
-    <td><a href="v0%3A%20for%20feedback/NodeDistbychannel_visualization.html" target="_blank">Distribution of Nodes by Channel</a></td>
-    <td>Count of nodes by Channel buckets.</td>
-    <td>wip</td>
-  </tr>
-  <tr>
-    <td><a href="v0%3A%20for%20feedback/ClearnetNodes.html" target="_blank">Geographical Location of Clearnet Nodes</a></td>
-    <td>Where are clearnet nodes located?</td>
-    <td>wip</td>
-  </tr>
-  <tr>
-    <td><a href="v0%3A%20for%20feedback/LorenzCurveLN20240110.html" target="_blank">Lorenz Curve for Lightning Network</a></td>
-    <td>Decentalization of Lightning?</td>
-    <td>wip</td>
-  </tr>
-</table>
+  <ol>
+    <li>Insights on nodes: Growth of nodes, Segmentation of nodes. Segmentation based on Fee and routing behavior. Segmentation based on connectivity within the graph.</li>
+    <li>Insights on channels: Channel growth. Channel segmentation, Channel & Fee analysis. Channel size and fee correlation.</li>
+    <li>Nodes X Channels Insights</li>
+    <li>Routing Simulator for your node</li>
+    <li>Channel recommendation optimizing multiple objective functions. For example, optimizing for payment forward or fee, for the robustness of the LN graph (Pleb growth)...</li>
+  </ol>
 
-  
+  <table>
+    <tr>
+      <th>Visualization</th>
+      <th>What is it</th>
+      <th>How to read it</th>
+    </tr>
+    <tr>
+      <td><a href="v0%3A%20for%20feedback/Nodevisualization.html" target="_blank">Node Visualization</a></td>
+      <td>Nodes Plotted against capacity and Channel Count. It is an information-rich interactive visualization.</td>
+      <td>wip</td>
+    </tr>
+    <tr>
+      <td><a href="v0%3A%20for%20feedback/NodeDistbycapacity_visualization.html" target="_blank">Distribution of Nodes by Capacity</a></td>
+      <td>Count of nodes by Capacity buckets.</td>
+      <td>wip</td>
+    </tr>
+    <tr>
+      <td><a href="v0%3A%20for%20feedback/NodeDistbychannel_visualization.html" target="_blank">Distribution of Nodes by Channel</a></td>
+      <td>Count of nodes by Channel buckets.</td>
+      <td>wip</td>
+    </tr>
+    <tr>
+      <td><a href="v0%3A%20for%20feedback/ClearnetNodes.html" target="_blank">Geographical Location of Clearnet Nodes</a></td>
+      <td>Where are clearnet nodes located?</td>
+      <td>wip</td>
+    </tr>
+    <tr>
+      <td><a href="v0%3A%20for%20feedback/LorenzCurveLN20240110.html" target="_blank">Lorenz Curve for Lightning Network</a></td>
+      <td>Decentralization of Lightning?</td>
+      <td>wip</td>
+    </tr>
+  </table>
 
-<p>
-  <a href="v0%3A%20for%20feedback/Nodevisualization.html" target="_blank">Node Visualization </a> 
-  <p> Nodes Plotted against capacity and Channel Count. It is an information-rich interactive visualization.</p>
-</p>
-  
-<p>
-  <a href="v0%3A%20for%20feedback/NodeDistbycapacity_visualization.html" target="_blank">Distribution of Nodes by Capacity</a> 
-  <p>Count of nodes by Capacity buckets.</p>
-</p>
-
-<br>
-
- 
-<p>
-  <a href="v0%3A%20for%20feedback/NodeDistbychannel_visualization.html" target="_blank">Distribution of Nodes by Channel</a> 
-  <p>Count Of nodes by channel buckets</p>
-</p>
-<br>
-<br>
-<p>
-  <a href="v0%3A%20for%20feedback/ClearnetNodes.html" target="_blank">Geographical Location of Clearnet Nodes</a> 
-  <p>Where are clearnet nodes located.</p>
-</p>
-
-<br>
-<p>
-  <a href="v0%3A%20for%20feedback/LorenzCurveLN20240110.html" target="_blank">Lorenz Curve for Lightning Network</a> 
-  <p>How decentralized  Lightning is now in terms of the capacity of Nodes?</p>
-</p>
-
-
-  
 </body>
+
 </html>
