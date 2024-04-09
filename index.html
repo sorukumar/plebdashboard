@@ -1,10 +1,14 @@
 <html>
 
 <head>
-  <title>PlebDashboard - Visualizing Lightning Network</title>
-  <style>
+  <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="home.css"/>
+    <title>PlebDashboard - Visualizing Lightning Network</title>
+    <style>
     body {
-      text-align: center;
       font-family: Arial, sans-serif;
     }
 
@@ -43,13 +47,25 @@
     li {
       margin-bottom: 10px;
     }
+
+  .container-body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
   </style>
 </head>
 
 <body>
-
-  <h2>Visualizing Lightning Network</h2>
-
+  <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <h1 class="navbar-brand mb-0">
+                Visualizing Lightning Network
+            </h1>
+        </div>
+    </nav>
+    <div class="container-body">
   <p>PlebDashboard is a dashboard for the Lightning network. I aim to create intuitive views and visualizations and make lightning data more accessible.
   <table>
     <tr>
@@ -124,8 +140,7 @@
     <li>Routing Simulator for your node</li>
     <li>Channel recommendation optimizing multiple objective functions. For example, optimizing for payment forward or fee, for the robustness of the LN graph (Pleb growth)...</li>
   </ol>
-
+</div>
 </body>
 
 </html>
-
