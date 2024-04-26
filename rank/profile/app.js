@@ -10,8 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set the alias in the search input
     const searchBox = document.getElementById('searchBox');
-    if (alias) {
+    if (searchBox && alias) {
         searchBox.value = decodeURIComponent(alias);
+
+        // Manually trigger the input event
+        const event = new Event('input', {
+            bubbles: true,
+            cancelable: true,
+        });
+        searchBox.dispatchEvent(event);
     }
 
   const suggestions = document.getElementById('suggestions');
