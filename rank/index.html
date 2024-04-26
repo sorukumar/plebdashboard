@@ -1,13 +1,57 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sortable and Filterable Table</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.default.min.css" rel="stylesheet">
-    <style>
-        #infoTable {
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="rank_style.css"/>
+  <title>Sortable and Filterable Table</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.default.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+  }
+
+  h2 {
+      margin-bottom: 10px;
+  }
+
+  table {
+      width: 80%;
+      margin: 40px auto; /* Increased gap before and after the table */
+      border-collapse: collapse;
+  }
+
+  th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+  }
+
+  th {
+      background-color: #f2f2f2;
+  }
+
+  p {
+      text-align: left;
+      margin: 20px auto;
+      max-width: 800px;
+  }
+
+  ol {
+      text-align: left;
+      margin: 20px auto;
+      max-width: 800px;
+  }
+
+  li {
+      margin-bottom: 10px;
+  }
+
+  #infoTable {
     width: 100%;
     border-collapse: collapse;
 }
@@ -28,10 +72,18 @@ input#filterInput {
     padding: 8px;
 }
 
-    </style>
+
+</style>
 </head>
+
 <body>
-    <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for names...">
+  <nav class="navbar bg-body-tertiary">
+    <div class="container">
+        <a href="https://sorukumar.github.io/plebdashboard/">Home</a>
+    </div>
+</nav>
+  <p>PlebDashboard is a dashboard for the Lightning network. I aim to create intuitive views and visualizations and make lightning data more accessible.</p>
+    <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for nodes...">
     <table id="infoTable" class="tablesorter">
         <thead>
             <tr>
@@ -57,40 +109,46 @@ input#filterInput {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-    Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/site/data/node_rank.csv", {
-        download: true,
-        header: true,
-        complete: function(results) {
-            const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
-            results.data.forEach(function(item) {
-                let row = table.insertRow();
-                Object.values(item).forEach(function(val) {
-                    let cell = row.insertCell();
-                    cell.textContent = val;
+            Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/site/data/node_rank.csv", {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+                    results.data.forEach(function(item) {
+                        let row = table.insertRow();
+                        Object.values(item).forEach(function(val, index) {
+                            let cell = row.insertCell();
+                    // Assuming the third column should be clickable
+                    if (index === 10) {
+                        cell.innerHTML = `<a href="profile.html?alias=${encodeURIComponent(val)}">${val}</a>`;
+                    } else {
+                        cell.textContent = val;
+                    }
                 });
+                    });
+                    $("#infoTable").tablesorter();
+                }
             });
-            $("#infoTable").tablesorter();
-        }
-    });
-});
+        });
 
-function filterTable() {
-    let input = document.getElementById("filterInput");
-    let filter = input.value.toUpperCase();
-    let table = document.getElementById("infoTable");
-    let tr = table.getElementsByTagName("tr");
-    for (let i = 1; i < tr.length; i++) {
-        let tds = tr[i].getElementsByTagName("td");
-        let found = false;
-        for (let j = 0; j < tds.length; j++) {
-            if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
-                found = true;
-                break;
+
+        function filterTable() {
+            let input = document.getElementById("filterInput");
+            let filter = input.value.toUpperCase();
+            let table = document.getElementById("infoTable");
+            let tr = table.getElementsByTagName("tr");
+            for (let i = 1; i < tr.length; i++) {
+                let tds = tr[i].getElementsByTagName("td");
+                let found = false;
+                for (let j = 0; j < tds.length; j++) {
+                    if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+                tr[i].style.display = found ? "" : "none";
             }
         }
-        tr[i].style.display = found ? "" : "none";
-    }
-}
 
     </script>
 </body>
