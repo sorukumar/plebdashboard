@@ -8,19 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get the alias from the URL
     const alias = getQueryParam('alias');
 
-    // Set the alias in the search input
-    const searchBox = document.getElementById('searchBox');
-    if (searchBox && alias) {
-        searchBox.value = decodeURIComponent(alias);
-
-        // Manually trigger the input event
-        const event = new Event('input', {
-            bubbles: true,
-            cancelable: true,
-        });
-        searchBox.dispatchEvent(event);
-    }
-
   const suggestions = document.getElementById('suggestions');
   const dataView = document.getElementById('dataView');
   let csvData = [];
@@ -81,6 +68,19 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 
+// Set the alias in the search input
+    const searchBox = document.getElementById('searchBox');
+    if (searchBox && alias) {
+        searchBox.value = decodeURIComponent(alias);
+
+        // Manually trigger the input event
+        const event = new Event('input', {
+            bubbles: true,
+            cancelable: true,
+        });
+        searchBox.dispatchEvent(event);
+    }
+    
   searchBox.addEventListener('input', () => {
     const value = searchBox.value.toLowerCase();
     const filteredData = csvData.filter(row => {
