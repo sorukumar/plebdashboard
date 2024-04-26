@@ -1,0 +1,13 @@
+| Category | The Questions that you can get answers to? | Link | Comment/Analysis/Explanatory Post |
+|----------|-------------------------------------------|------|------------------------------------|
+| Node | In one page, you see all the active nodes in LN. It has key node data like # of channels, total capacity, and capacity percentile. Almost everything you want to know in one page. | [Node Visualization](v0%3A%20for%20feedback/Nodevisualization20240306.html) | |
+| Node | Lorenz curve of LN. We have plotted the Lorenz curve based on capacity and also Channels. You will learn that 1% of top nodes control 70% of the capacity of LN | [Lorenz Curve for Lightning Network](v0%3A%20for%20feedback/LorenzCurveLN20240306.html) | |
+| Node | A bar chart on nodes grouped by capacity buckets. You can find out what % of nodes have more or less than X sats in capacity, and also what the distribution looks like. | [Distribution of Nodes by Capacity](v0%3A%20for%20feedback/NodeDistributionbyCap20240306.html) | |
+| Node | A bar chart on nodes grouped by channel count buckets. You can find out what % of nodes have more or less than X number of channels | [Distribution of Nodes by Channel](v0%3A%20for%20feedback/NodeDistributionbyChnl20240306.html) | |
+| Node | List of all nodes with at least one public channel | [List of all nodes with at least one public channel](v0%3A%20for%20feedback/ListofNode20240306.html) | |
+| Node | List of Nodes that have taproot enabled | [List of nodes with Taproot Channels](v0%3A%20for%20feedback/ListofNodeswithTaproot20240306.html) | |
+| Node | Features enable by Nodes. How many nodes have enabled a certain feature? for e.g, how many nodes have enabled Keysend. | [Features Enabled by Nodes](v0%3A%20for%20feedback/NodesandFeatures20240306.html) | |
+| Node | Geographical Location of Clearnet Nodes | [Geographical Location of Clearnet Nodes](v0%3A%20for%20feedback/ClearnetNodes.html) | |
+| Channels | In one page, you get to see all the channels in LN. Hover over it to find out the nodes connected by the channel, the size of the node, and the fee. | [Channels visualized in one page](v0%3A%20for%20feedback/1ChartChannelvisualization20240306.html) | |
+| Channels | This has data on the distribution of # of channels by fee rate bucket. You can also find out, let's say, what % of channels have less than 10ppm fee rate. | [Distribution of Channels by fee rate](v0%3A%20for%20feedback/ChnlDistfeerate20240306.html) | |
+| Channels | This has data on the distribution of # of channels by capacity bucket. You can also find out, let's say, that size of 80% of channels is less than 10M sats. | [Distribution of Channels by capacity buckets](v0%3A%20for%20feedback/ChnlDistcapacity20240306.html) | |
