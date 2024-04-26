@@ -120,7 +120,7 @@ input#filterInput {
                             let cell = row.insertCell();
                     // Assuming the third column should be clickable
                     if (index === 10) {
-                        cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}">${val}</a>`;
+                        cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
                     } else {
                         cell.textContent = val;
                     }
