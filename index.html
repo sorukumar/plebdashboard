@@ -1,21 +1,24 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title></title>
-<script
-    src="https://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous">
-</script>
-<script> 
-$(function(){
-  // $("#header").load("header.html"); 
-  $("#footer").load("footer.html"); 
-});
-</script> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div id="header"></div>
-<!--Remaining section-->
-<div id="footer"></div>
+<body onload="includeHTML()">
+
+  <div include-html="side-nav.html"></div>
+  <div include-html="top-nav.html"></div>
+  
+  <!-- Main content of the page -->
+  <div class="main-content">
+    <h1>Welcome to My Website</h1>
+    <p>This is the main content of the page.</p>
+  </div>
+
+  <div include-html="footer.html"></div>
+  
+  <script src="include.js"></script>
 </body>
 </html>
