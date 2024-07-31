@@ -142,22 +142,36 @@
 
 
         function filterTable() {
-            let input = document.getElementById("filterInput");
-            let filter = input.value.toUpperCase();
-            let table = document.getElementById("infoTable");
-            let tr = table.getElementsByTagName("tr");
-            for (let i = 1; i < tr.length; i++) {
-                let tds = tr[i].getElementsByTagName("td");
-                let found = false;
-                for (let j = 0; j < tds.length; j++) {
-                    if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
-                        found = true;
-                        break;
-                    }
-                }
-                tr[i].style.display = found ? "" : "none";
+    let input = document.getElementById("filterInput");
+    let filter = input.value.toUpperCase();
+    console.log("Filter text:", filter);
+
+    let table = document.getElementById("infoTable");
+    let tr = table.getElementsByTagName("tr");
+    console.log("Total rows in table:", tr.length);
+
+    for (let i = 1; i < tr.length; i++) {
+        let tds = tr[i].getElementsByTagName("td");
+        let found = false;
+        console.log(`Checking row ${i}:`);
+
+        for (let j = 0; j < tds.length; j++) {
+            let cellText = tds[j].textContent.toUpperCase();
+            console.log(`  Cell ${j} content:`, cellText);
+
+            if (cellText.indexOf(filter) > -1) {
+                found = true;
+                console.log(`  Match found in cell ${j}`);
+                break;
             }
         }
+
+        tr[i].style.display = found ? "" : "none";
+        console.log(`  Row ${i} display:`, tr[i].style.display);
+    }
+
+    console.log("Filtering complete");
+}
   </script>
     <script src="vendor/jquery.min.js"></script>
     <script src="vendor/bootstrap.bundle.min.js"></script>
