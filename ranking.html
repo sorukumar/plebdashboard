@@ -80,10 +80,9 @@ input#filterInput {
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">List of Nodes</h6>
+                          <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for nodes...">
                         </div>
                         <div class="card-body">
-                            <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for nodes...">
                             <div class="table-responsive">
                                 
                                 <table id="infoTable" class="tablesorter">
