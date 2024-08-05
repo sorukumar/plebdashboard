@@ -28,7 +28,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="infoTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Degree Centrality Rank</th>
@@ -103,13 +103,16 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/site/data/20240621_node_rank.csv", {
                 download: true,
                 header: true,
                 complete: function(results) {
-                    const table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+                    const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
                     results.data.forEach(function(item) {
                         let row = table.insertRow();
                         Object.values(item).forEach(function(val, index) {
@@ -122,7 +125,7 @@
                     }
                 });
                     });
-                    $("#dataTable").tablesorter();
+                    $("#infoTable").tablesorter();
                 }
             });
         });
@@ -131,7 +134,7 @@
         function filterTable() {
             let input = document.getElementById("filterInput");
             let filter = input.value.toUpperCase();
-            let table = document.getElementById("dataTable");
+            let table = document.getElementById("infoTable");
             let tr = table.getElementsByTagName("tr");
             for (let i = 1; i < tr.length; i++) {
                 let tds = tr[i].getElementsByTagName("td");
