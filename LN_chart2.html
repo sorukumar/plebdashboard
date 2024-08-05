@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<body onload="includeHTML()">
+  <div include-html="header.html"></div>
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <div include-html="side-nav.html"></div>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+      <div include-html="top-nav.html"></div>
+      <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Hubness Rank vs Influence Rank</h1>
+        <div class="card-body">
+          <p>Hubness rank (Betweenness) of a node plotted against Influence (Eigenvector). This chart is beneficial in figuring out a peer. It is good to imagine 4 quadrants - 'High Influence-High hubness', 'High Influence-Low hubness', 'Low Influence-High hubness', 'Low Influence-Low hubless' and think of how nodes are playing their role in the graph</p>
+        </div>
+        <iframe src="https://sorukumar.github.io/plebdashboard/v0%3A%20for%20feedback/1CentralityAllnodes20240621.html" width="100%" height="1200px" frameborder="0"></iframe>
+    </div>
+                <!-- /.container-fluid -->
+</div>
+
+      <div include-html="footer.html"></div>
+            </div>
+        <!-- End of Content Wrapper -->
+
+      </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+  
+  <!-- Bootstrap core JavaScript-->
+    <script src="include.js"></script>
+    <script src="vendor/jquery.min.js"></script>
+    <script src="vendor/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="vendor/index.min.js"></script>
+</body>
+</html>
