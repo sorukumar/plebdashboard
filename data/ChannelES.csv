@@ -1,0 +1,4 @@
+Channel_Size_Tier,Num_Channels,Channel_Percentage,Total_Capacity,Capacity_Percentage,Num_Unique_Nodes
+Freeway,660,0.014,192470516450,0.378,116
+Highway,13079,0.269,254974796712,0.501,2289
+My Way,34803,0.717,61076764989,0.12,12204
