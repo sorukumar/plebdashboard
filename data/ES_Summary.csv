@@ -1,2 +1,2 @@
-Unique_Nodes,Unique_Edges,Median_Fee_Rate,Median_Base_Fee
-12693,48542,88.0,1000.0
+Unique_Nodes,Unique_Edges,Total_Capacity,Median_Fee_Rate,Median_Base_Fee,Effective_Fee_Rate_BPS
+12711,48435,"5,148.4 bitcoin",88.0,1000.0,0.98
