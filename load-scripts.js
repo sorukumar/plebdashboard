@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         "vendor/datatables/jquery.dataTables.min.js",
         "vendor/datatables/dataTables.bootstrap4.min.js",
         "js/demo/datatables-demo.js"
+        "js/demo/datatables-demo.js"
     ];
 
     // Function to load each script
