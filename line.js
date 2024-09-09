@@ -159,10 +159,10 @@ function drawStackedBarChart(data) {
                 },
                 y: {
                     stacked: true,
-                    title: {
-                        display: true,
-                        text: 'Metrics'
-                    }
+                    // title: {
+                    //     display: true,
+                    //     text: 'Metrics'
+                    // }
                 }
             },
             plugins: {
