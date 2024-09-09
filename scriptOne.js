@@ -4,7 +4,8 @@ function fetchCSVData() {
         .then(response => response.text())
         .then(data => {
             const parsedData = parseCSVData(data);
-            populateCards(parsedData[0]); // Assuming the data to be displayed in the cards is in the first row
+            console.log(parsedData);  // Debug: Log parsed data to inspect structure
+            populateCards(parsedData[0]); // Assuming first row of data is to be displayed
         })
         .catch(error => console.error('Error fetching the CSV file:', error));
 }
@@ -13,12 +14,14 @@ function fetchCSVData() {
 function parseCSVData(data) {
     const rows = data.split('\n').map(row => row.split(','));
 
-    return rows.slice(1).filter(row => row.length >= 4).map(row => ({
-        uniqueNodes: row[0]?.trim(),
-        uniqueEdges: row[1]?.trim(),
-        medianFeeRate: row[2]?.trim(),
-        medianBaseFee: row[3]?.trim()
-    }));
+    return rows.slice(1)  // Skip header row
+        .filter(row => row.length >= 4) // Ensure we have at least 4 columns
+        .map(row => ({
+            uniqueNodes: row[0]?.trim(),
+            uniqueEdges: row[1]?.trim(),
+            medianFeeRate: row[2]?.trim(),
+            medianBaseFee: row[3]?.trim()
+        }));
 }
 
 // Function to display the data in the cards
