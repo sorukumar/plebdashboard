@@ -16,9 +16,17 @@
       <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Node Visualization</h1>
+        <h1 class="h3 mb-4 text-gray-800">Node as Bubble, plotted against Node Capacity and # of Channels</h1>
         <div class="card-body">
-          <p>In one page, you see all the active nodes in LN. It has key node data like # of channels, total capacity, and capacity percentile. Almost everything you want to know in one page.</p>
+          <p>In one page, you see all the active nodes in the Lightning network. Here is what we need to keep in the mind to make the most out of the chart with least effort. 
+            </p>
+          <ul>
+            <li>The LN Nodes are plotted in 5 separate charts based on percentile, top 0.5%, top 5% and so on.</li>
+            <li>Bubble Size is correlated with Capacity </li>
+            <li>It has key node data on channel and Capacity and Fee. It has PRank (pleb rank) of the node, and also node rank based on multiple key dimensions.</li>
+            <li>Mulling over Node capacity and Channel and Rank can tell us a lot about the Node and its position of LN graph. For example, WoS compared to Binance has way more channel with less capacity</li>
+              <!-- Add more <li> elements as needed -->
+          </ul>
         </div>
         <iframe src="../viz/Nodevisualization.html" width="100%" height="2500px" frameborder="0"></iframe>  
       </div>
