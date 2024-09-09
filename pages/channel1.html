@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<body onload="includeHTML()">
+  <div include-html="includes/header.html"></div>
+<body id="page-top">
 
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <div include-html="includes/side-nav.html"></div>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+      <div include-html="includes/top-nav.html"></div>
+<div class="container-fluid">
+  <h1 class="h3 mb-4 text-gray-800">Distribution of Channel by Channel Size</h1>
+  
+  <div class="card mb-4">
+    <div class="card-body">
+      <p> The Key points:</p>
+    </div>
+    <ul>
+    <li>Pnly 1.5% of channels are bigger than 1 BTC, they account for ~40% of liquidity of Lightning network </li>
+    <li>80/20 rule at its finest. ~80% of channels account for only ~20% of liquidity.</li>
+    <li> Only 5% of channels are bigger than 0.25 BTC, and they acocunt for more than 60% of liquidity </li>
+    <!-- Add more <li> elements as needed -->
+  </ul>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <iframe src="../viz/ChnlsizeDist.html" width="100%" height="600px" frameborder="0"></iframe>
+    </div>
+ 
+  </div>
+  
+   <div class="card mb-4">
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6"> 
+      <iframe src="../viz/Chnlsizecum.html" width="100%" height="600px" frameborder="0"></iframe>
+    </div>
+ 
+  </div>
+</div>
+
+      <div include-html="includes/footer.html"></div>
+            </div>
+        <!-- End of Content Wrapper -->
+
+      </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+  
+    <script src="../js/include.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+</body>
+</html>
