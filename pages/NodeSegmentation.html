@@ -13,29 +13,50 @@
             <!-- Main Content -->
             <div id="content">
       <div include-html="includes/top-nav.html"></div>
-      <div class="container-fluid">
-
-        <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Node Segmentation</h1>
-        <div class="card-body">
-          <p>In one page, you see all the active nodes in LN. It has key node data like # of channels, total capacity, and capacity percentile. Almost everything you want to know in one page.</p>
-        </div>
-        <iframe src="../viz/CapDist.html" width="100%" height="600px" frameborder="0"></iframe>  
-        <div class="card-body">
-          <p>In one page, you see all the active nodes in LN. It has key node data like # of channels, total capacity, and capacity percentile. Almost everything you want to know in one page.</p>
-        </div>
-        <iframe src="../viz/CapCumulativeDist.html" width="100%" height="600px" frameborder="0"></iframe>  
-        <div class="card-body">
-          <p>In one page, you see all the active nodes in LN. It has key node data like # of channels, total capacity, and capacity percentile. Almost everything you want to know in one page.</p>
-        </div>
-        <iframe src="../viz/ChnlDist.html" width="100%" height="600px" frameborder="0"></iframe>  
-        <div class="card-body">
-          <p>In one page, you see all the active nodes in LN. It has key node data like # of channels, total capacity, and capacity percentile. Almost everything you want to know in one page.</p>
-        </div>
-        <iframe src="../viz/ChnlCumulativeDist.html" width="100%" height="600px" frameborder="0"></iframe>  
-      </div>
-
-                <!-- /.container-fluid -->
+<div class="container-fluid">
+  <h1 class="h3 mb-4 text-gray-800">Node Segmentation based on Capacity they have, and based on Channels they have</h1>
+  
+  <div class="card mb-4">
+    <div class="card-body">
+      <p> The Key points:</p>
+    </div>
+    <ul>
+    <li>Majority of the nodes have low capacity. To be precise, 86% of nodes have less than 10M sats (0.1 bitcoin) capacity </li>
+    <li>Only 12 nodes have more than 10 bitcoin in  capacity</li>
+    <li> ~50% of nodes have less than 500k (0.005 bitcoin) sats capacity. In USD terms, we can think of as $200-$300. </li>
+    <!-- Add more <li> elements as needed -->
+  </ul>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <iframe src="../viz/CapDist.html" width="100%" height="600px" frameborder="0"></iframe>
+    </div>
+    <div class="col-md-6">
+      <iframe src="../viz/CapCumulativeDist.html" width="100%" height="600px" frameborder="0"></iframe>
+    </div>
+  </div>
+  
+   <div class="card mb-4">
+    <div class="card-body">
+      <p> The Key points:</p>
+    </div>
+    <ul>
+    <li>50% of nodes have only one channel. Keep in mind, our work counts only public channels, so some of them may have private channel too. But we can safely assume that they are not a routing nodes </li>
+    <li>Only 5% of nodes have more than 10 channels</li>
+    <li> 8 nodes have more than 1k channels </li>
+    <!-- Add more <li> elements as needed -->
+  </ul>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <iframe src="../viz/ChnlDist.html" width="100%" height="600px" frameborder="0"></iframe>
+    </div>
+    <div class="col-md-6">
+      <iframe src="../viz/ChnlCumulativeDist.html" width="100%" height="600px" frameborder="0"></iframe>
+    </div>
+  </div>
 </div>
 
       <div include-html="includes/footer.html"></div>
