@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<body onload="includeHTML()">
+  <div include-html="includes/header.html"></div>
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <div include-html="includes/side-nav.html"></div>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+      <div include-html="includes/top-nav.html"></div>
+      <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Channel End distribution by Fee bucket</h1>
+        <div class="card-body">
+         <p>Here we are plotting channel end distribution by fee bucket. # Channel end = 2 * # of Channels. Depending on channel have different behavior fee depending on which end you made entry from
+           We are makeing a plot on channel ends.   </p> 
+          <p> Key Insight: 
+            </p>
+          <ul>
+            <li>40% of channel end have zero base fee</li>
+            <li>Only 10% of channel have zero fee rate</li>
+            <li>Note that fee is a way for nodes to manage liquidity. When a node operator see it does not have enough liquidity in a specifc channel, she increase the fee to save the liquidity</li>
+            
+              <!-- Add more <li> elements as needed -->
+          </ul>
+        </div>
+        <iframe src="../viz/base_fee_distribution.png" width="100%" height="1000px" frameborder="0"></iframe>  
+        <iframe src="../viz/fee_rate_distribution.png" width="100%" height="1000px" frameborder="0"></iframe>  
+      </div>
+
+                <!-- /.container-fluid -->
+</div>
+
+      <div include-html="includes/footer.html"></div>
+            </div>
+        <!-- End of Content Wrapper -->
+
+      </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+  
+    <script src="../js/include.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+</body>
+</html>
