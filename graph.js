@@ -34,6 +34,11 @@
              }]
          },
          options: {
+            plugins: {
+                legend: {
+                  display: false // This disables the legend
+                }
+              },
              scales: {
                  x: {
                      title: {

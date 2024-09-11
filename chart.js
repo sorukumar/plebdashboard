@@ -116,7 +116,9 @@ function drawChart(data) {
                     }
                 },
                 legend: {
-                    position: 'top'
+                    position: 'top',
+                    display: false // This disables the legend
+
                 }
             }
         }
