@@ -1,27 +1,22 @@
-// Function to fetch and parse the CSV file
+// Function to fetch and parse the CSV file using PapaParse
 function fetchCSVData() {
-    fetch('data/ES_Summary.csv')
-        .then(response => response.text())
-        .then(data => {
-            const parsedData = parseCSVData(data);
-            console.log(parsedData);  // Debug: Log parsed data to inspect structure
-            populateCards(parsedData[0]); // Assuming first row of data is to be displayed
-        })
-        .catch(error => console.error('Error fetching the CSV file:', error));
-}
-
-// Function to parse CSV data
-function parseCSVData(data) {
-    const rows = data.split('\n').map(row => row.split(','));
-
-    return rows.slice(1)  // Skip header row
-        .filter(row => row.length >= 4) // Ensure we have at least 4 columns
-        .map(row => ({
-            uniqueNodes: row[0]?.trim(),
-            uniqueEdges: row[1]?.trim(),
-            medianFeeRate: row[2]?.trim(),
-            medianBaseFee: row[3]?.trim()
-        }));
+    Papa.parse('data/ES_Summary.csv', {
+        download: true,
+        header: true, // Treat first row as header
+        skipEmptyLines: true, // Skip empty lines
+        complete: function(results) {
+            const parsedData = results.data;
+            console.log('Parsed Data:', parsedData);  // Debug: Log parsed data
+            if (parsedData.length > 0) {
+                populateCards(parsedData[0]); // Assuming first row of data is to be displayed
+            } else {
+                console.error('No valid data found in CSV');
+            }
+        },
+        error: function(error) {
+            console.error('Error fetching the CSV file:', error);
+        }
+    });
 }
 
 // Function to display the data in the cards
