@@ -111,7 +111,7 @@ function drawChart(data) {
                         label: function(tooltipItem) {
                             const datasetLabel = tooltipItem.dataset.label;
                             const value = tooltipItem.raw;
-                            return `${datasetLabel}: ${value.toFixed(2)}%`;
+                            return `${datasetLabel}: ${value > 20 ? value.toFixed(0) : value.toFixed(1)  }%`;
                         }
                     }
                 },

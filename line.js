@@ -171,7 +171,7 @@ function drawStackedBarChart(data) {
                         label: function(tooltipItem) {
                             const datasetLabel = tooltipItem.dataset.label;
                             const value = tooltipItem.raw;
-                            return `${datasetLabel}: ${value.toFixed(2)}%`; // Format tooltip value as percentage
+                            return `${datasetLabel}: ${value > 15 ? value.toFixed(0) : value.toFixed(1)  }%`; // Format tooltip value as percentage
                         }
                     }
                 },
