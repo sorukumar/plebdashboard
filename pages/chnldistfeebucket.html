@@ -16,19 +16,22 @@
       <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Node Visualization</h1>
+        <h1 class="h3 mb-4 text-gray-800">Channel End distribution by Fee bucket</h1>
         <div class="card-body">
-         <p>In one page, you see all the active nodes in the Lightning network. Here is what we need to keep in the mind to make the most out of the chart with least effort. 
+         <p>Here we are plotting channel end distribution by fee bucket. # Channel end = 2 * # of Channels. Depending on channel have different behavior fee depending on which end you made entry from
+           We are makeing a plot on channel ends.   </p> 
+          <p> Key Insight: 
             </p>
           <ul>
-            <li>The LN Nodes are plotted in 5 separate charts based on percentile, top 0.5%, top 5% and so on.</li>
-            <li>Bubble Size is correlated with Capacity </li>
-            <li>It has key node data on channel and Capacity and Fee. It has PRank (pleb rank) of the node, and also node rank based on multiple key dimensions.</li>
-            <li>Mulling over Node capacity and Channel and Rank can tell us a lot about the Node and its position of LN graph. For example, WoS compared to Binance has way more channel with less capacity</li>
+            <li>40% of channel end have zero base fee</li>
+            <li>Only 10% of channel have zero fee rate</li>
+            <li>Note that fee is a way for nodes to manage liquidity. When a node operator see it does not have enough liquidity in a specifc channel, she increase the fee to save the liquidity</li>
+            
               <!-- Add more <li> elements as needed -->
           </ul>
         </div>
-        <iframe src="../viz/1ChartNodevisualization.html" width="100%" height="1000px" frameborder="0"></iframe>  
+        <iframe src="../viz/base_fee_distribution.png" width="100%" height="1000px" frameborder="0"></iframe>  
+        <iframe src="../viz/fee_rate_distribution.png" width="100%" height="1000px" frameborder="0"></iframe>  
       </div>
 
                 <!-- /.container-fluid -->
