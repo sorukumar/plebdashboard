@@ -21,10 +21,10 @@ function fetchCSVData() {
 
 // Function to display the data in the cards
 function populateCards(data) {
-    document.getElementById('1').textContent = data.uniqueNodes || 'N/A';
-    document.getElementById('2').textContent = data.uniqueEdges || 'N/A';
-    document.getElementById('3').textContent = data.medianFeeRate || 'N/A';
-    document.getElementById('4').textContent = data.medianBaseFee || 'N/A';
+    document.getElementById('1').textContent = data.Unique_Nodes || 'N/A';
+    document.getElementById('2').textContent = data.Unique_Edges || 'N/A';
+    document.getElementById('3').textContent = data.Median_Fee_Rate || 'N/A';
+    document.getElementById('4').textContent = data.Median_Base_Fee || 'N/A';
 }
 
 // Call the function to fetch and display the data when the page loads
