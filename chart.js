@@ -110,7 +110,7 @@
                     y: {
                         stacked: true,
                         title: {
-                            display: true,
+                            display: false,
                             text: 'Metrics'
                         }
                     }
