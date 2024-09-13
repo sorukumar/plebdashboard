@@ -13,52 +13,87 @@
             <!-- Main Content -->
             <div id="content">
       <div include-html="includes/top-nav.html"></div>
-<div class="container-fluid">
-  <h1 class="h3 mb-4 text-gray-800">Node Segmentation based on Capacity they have, and based on Channels they have</h1>
-  
-  <div class="card mb-4">
-    <div class="card-body">
-      <p> The Key points:</p>
-    </div>
-    <ul>
-    <li>Majority of the nodes have low capacity. To be precise, 86% of nodes have less than 10M sats (0.1 bitcoin) capacity </li>
-    <li>Only 12 nodes have more than 10 bitcoin in  capacity</li>
-    <li> ~50% of nodes have less than 500k (0.005 bitcoin) sats capacity. In USD terms, we can think of as $200-$300. </li>
-    <!-- Add more <li> elements as needed -->
-  </ul>
-  </div>
-  
-  <div class="row">
-    <div class="col-md-6">
-      <iframe src="../viz/CapDist.html" width="100%" height="600px" frameborder="0"></iframe>
-    </div>
-    <div class="col-md-6">
-      <iframe src="../viz/CapCumulativeDist.html" width="100%" height="600px" frameborder="0"></iframe>
-    </div>
-  </div>
-  
-   <div class="card mb-4">
-    <div class="card-body">
-      <p> The Key points:</p>
-    </div>
-    <ul>
-    <li>50% of nodes have only one channel. Keep in mind, our work counts only public channels, so some of them may have private channel too. But we can safely assume that they are not a routing nodes </li>
-    <li>Only 5% of nodes have more than 10 channels</li>
-    <li> 8 nodes have more than 1k channels </li>
-    <!-- Add more <li> elements as needed -->
-  </ul>
-  </div>
-  
-  <div class="row">
-    <div class="col-md-6">
-      <iframe src="../viz/ChnlDist.html" width="100%" height="600px" frameborder="0"></iframe>
-    </div>
-    <div class="col-md-6">
-      <iframe src="../viz/ChnlCumulativeDist.html" width="100%" height="600px" frameborder="0"></iframe>
-    </div>
-  </div>
-</div>
+      <!-- Begin Page Content -->
+                <div class="container-fluid">
 
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">About PlebDashboard</h1>
+
+                    <!-- What is PlebDashboard Section -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h2 class="h4 m-0 font-weight-bold text-primary">What is PlebDashboard?</h2>
+                        </div>
+                        <div class="card-body">
+                            <p>PlebDashboard is an open source comprehensive data endeavor with focus on building data tools, products and dashboard for Lightning, Bitcoin and Bitcoin adjacent Technologies. Our mission is to provide insightful data and visualizations to help users understand and navigate the Bitcoin ecosystem.</p>
+                            <h3 class="h5 mt-4">Our Plan</h3>
+                            <ul>
+                                <li>Continue work on Lightning visualization. Expand our range of visualizations and metrics</li>
+                                <li>Bring data and insights of Bitcoin and adjacent technologies</li>
+                                <li>Build tools for data analysis. for example, LightningDS, a python library for data analysis for Lightning network</li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Team Section -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h2 class="h4 m-0 font-weight-bold text-primary">Our Team</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-4 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Saurabh Kumar</h4>
+                                            <a href="https://github.com/sorukumar" class="card-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                                            <a href="https://x.com/Soru_kumar" class="card-link" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Marisha Sahay</h4>
+<!--                                             <h6 class="card-subtitle mb-2 text-muted">Co-founder & Data Analyst</h6>
+                                            <p class="card-text">Marisha specializes in data visualization and network analysis for the Lightning Network.</p> -->
+                                            <a href="https://github.com/Marisha-Sahay" class="card-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                                            <a href="https://x.com/marishasahay" class="card-link" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Mukund Parashar</h4>
+<!--                                             <h6 class="card-subtitle mb-2 text-muted">Co-founder & Community Manager</h6>
+                                            <p class="card-text">Mukund engages with the Lightning Network community and gathers valuable user feedback.</p> -->
+                                            <a href="https://github.com/Mukundparashar19" class="card-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Get in Touch Section -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h2 class="h4 m-0 font-weight-bold text-primary">Get in Touch</h2>
+                        </div>
+                        <div class="card-body">
+                            <p>We'd love to hear from you! Please let us know how can we imrove on our work, or would like to contribute</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-envelope mr-2"></i>Email: lnsorukumar@gmail.com</li>
+                                <li><i class="fab fa-twitter mr-2"></i>Twitter: @Soru_kumar</li>
+                                <li><i class="fab fa-github mr-2"></i>GitHub: https://github.com/sorukumar/plebdashboard</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
       <div include-html="includes/footer.html"></div>
             </div>
         <!-- End of Content Wrapper -->
