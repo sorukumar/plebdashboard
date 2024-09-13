@@ -1,1 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<body onload="includeHTML()">
+  <div include-html="includes/header.html"></div>
+  <style>
+    table {
+      width: 80%;
+      margin: 40px auto; /* Increased gap before and after the table */
+      border-collapse: collapse;
+  }
 
+  th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+  }
+
+  th {
+      background-color: #f2f2f2;
+  }
+
+  ol {
+      text-align: left;
+      margin: 20px auto;
+      max-width: 800px;
+  }
+
+  li {
+      margin-bottom: 10px;
+  }
+
+  #infoTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#infoTable th, #infoTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#infoTable th {
+    background-color: #f2f2f2;
+}
+
+input#filterInput {
+    margin-bottom: 10px;
+    width: 300px;
+    padding: 8px;
+}
+
+
+</style>
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <div include-html="includes/side-nav.html"></div>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+      <div include-html="includes/top-nav.html"></div>
+      <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Node Ranking</h1>
+                    <p class="mb-4">Lightning Nodes ranked by Capacity, # of Channel, and centrality measure. Degree centrality, Betweenness, Closeness, and Hubness. To learn more about centrality, read <a target="_blank"
+                            href="https://sorukumar.github.io/blog/lightning/technical/2024/04/12/Centrality-Measures-Lightning-Network.html">Centrality Measure</a>.</p>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                          <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for nodes...">
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                
+                                <table id="infoTable" class="tablesorter">
+                                    <thead>
+                                        <tr>
+                                            <th>Degree Centrality Rank</th>
+                                            <th>Betweenness Centrality Rank</th>
+                                            <th>Closeness Centrality Rank</th>
+                                            <th>Eigenvector Centrality Rank</th>
+                                            <th>Active Channel Count Rank</th>
+                                            <th>Capacity Rank</th>
+                                            <th>Alias</th>
+                                            <th>Node_Type</th>
+                                            <th>Clearnet Tor Status</th>
+                                            <th>Formatted Capacity</th>
+                                            <th>Active Channel Count</th>
+                                            <th>Public Key</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+</div>
+
+      <div include-html="includes/footer.html"></div>
+            </div>
+        <!-- End of Content Wrapper -->
+
+      </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+  
+    <script src="../js/include.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/site/data/20240621_node_rank.csv", {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+                    results.data.forEach(function(item) {
+                        let row = table.insertRow();
+                        Object.values(item).forEach(function(val, index) {
+                            let cell = row.insertCell();
+                    // Assuming the third column should be clickable
+                    if (index === 11) {
+                        cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                    } else {
+                        cell.textContent = val;
+                    }
+                });
+                    });
+                    $("#infoTable").tablesorter();
+                }
+            });
+        });
+
+
+        function filterTable() {
+            let input = document.getElementById("filterInput");
+            let filter = input.value.toUpperCase();
+            let table = document.getElementById("infoTable");
+            let tr = table.getElementsByTagName("tr");
+            for (let i = 1; i < tr.length; i++) {
+                let tds = tr[i].getElementsByTagName("td");
+                let found = false;
+                for (let j = 0; j < tds.length; j++) {
+                    if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+                tr[i].style.display = found ? "" : "none";
+            }
+        }
+    </script>
+</body>
+</html>
