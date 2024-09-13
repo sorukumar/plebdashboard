@@ -82,18 +82,10 @@ input#filterInput {
                                 <table id="infoTable" class="tablesorter">
                                     <thead>
                                         <tr>
-                                            <th>Degree Centrality Rank</th>
-                                            <th>Betweenness Centrality Rank</th>
-                                            <th>Closeness Centrality Rank</th>
-                                            <th>Eigenvector Centrality Rank</th>
-                                            <th>Active Channel Count Rank</th>
+                                            <th>Pleb Rank</th>
+                                            <th>Channels Rank</th>
                                             <th>Capacity Rank</th>
-                                            <th>Alias</th>
-                                            <th>Node_Type</th>
-                                            <th>Clearnet Tor Status</th>
-                                            <th>Formatted Capacity</th>
-                                            <th>Active Channel Count</th>
-                                            <th>Public Key</th>
+                                            <th>Alias/Pub key</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -141,7 +133,7 @@ input#filterInput {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/site/data/20240621_node_rank.csv", {
+            Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/site/data/prank.csv", {
                 download: true,
                 header: true,
                 complete: function(results) {
