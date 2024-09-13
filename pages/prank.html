@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Prank (Pleb Ranking)</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <div include-html="includes/side-nav.html"></div>
+        
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div include-html="includes/top-nav.html"></div>
+                
+                <div class="container-fluid">
+                    <h1 class="h3 mb-2 text-gray-800">Prank (Pleb Ranking)</h1>
+                    <p class="mb-4">PRank is a custom method to rank nodes. We look at multiple weighted centrality measures to rank nodes. To learn about centrality read <a target="_blank" href="https://sorukumar.github.io/blog/lightning/technical/2024/04/12/Centrality-Measures-Lightning-Network.html">Centrality Measure</a>.</p>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for nodes...">
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="infoTable" class="tablesorter">
+                                    <thead>
+                                        <tr>
+                                            <th>Pleb Rank</th>
+                                            <th>Channels Rank</th>
+                                            <th>Capacity Rank</th>
+                                            <th>Alias/Pub key</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div include-html="includes/footer.html"></div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
+
+    <!-- Additional required scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Step 1: Include HTML components (sidebar and navbar)
+        includeHTML(function() {
+            // Step 2: Load initial content and first 100 records
+            loadInitialContent();
+            
+            // Step 3: Load remaining data in the background
+            loadRemainingData();
+        });
+    });
+
+    function includeHTML(callback) {
+        var z, i, elmnt, file, xhttp;
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            file = elmnt.getAttribute("include-html");
+            if (file) {
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                        if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                        elmnt.removeAttribute("include-html");
+                        includeHTML(callback);
+                    }
+                }      
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                return;
+            }
+        }
+        if (callback) callback();
+    }
+
+    function loadInitialContent() {
+        Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
+            download: true,
+            header: true,
+            preview: 100, // Load only first 100 records
+            complete: function(results) {
+                populateTable(results.data);
+                $("#infoTable").tablesorter();
+            }
+        });
+    }
+
+    function loadRemainingData() {
+        Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
+            download: true,
+            header: true,
+            skipFirstNLines: 100, // Skip the first 100 records we've already loaded
+            complete: function(results) {
+                appendToTable(results.data);
+            }
+        });
+    }
+
+    function populateTable(data) {
+        const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+        data.forEach(function(item) {
+            let row = table.insertRow();
+            Object.values(item).forEach(function(val, index) {
+                let cell = row.insertCell();
+                if (index === 11) {
+                    cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                } else {
+                    cell.textContent = val;
+                }
+            });
+        });
+    }
+
+    function appendToTable(data) {
+        const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+        data.forEach(function(item) {
+            let row = table.insertRow();
+            Object.values(item).forEach(function(val, index) {
+                let cell = row.insertCell();
+                if (index === 11) {
+                    cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                } else {
+                    cell.textContent = val;
+                }
+            });
+        });
+        $("#infoTable").trigger("update");
+    }
+
+    function filterTable() {
+        let input = document.getElementById("filterInput");
+        let filter = input.value.toUpperCase();
+        let table = document.getElementById("infoTable");
+        let tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            let tds = tr[i].getElementsByTagName("td");
+            let found = false;
+            for (let j = 0; j < tds.length; j++) {
+                if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            tr[i].style.display = found ? "" : "none";
+        }
+    }
+    </script>
+</body>
+</html>
