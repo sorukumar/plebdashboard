@@ -18,8 +18,8 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">Channel End distribution by Fee bucket</h1>
         <div class="card-body">
-         <p>Here we are plotting channel end distribution by fee bucket. # Channel end = 2 * # of Channels. Depending on channel have different behavior fee depending on which end you made entry from
-           We are makeing a plot on channel ends.   </p> 
+         <p>'Channel end' distribution is plotted against Fee buckets. A channel has two ends, one end is managed by one node, and the second end is managed by the peer node. 
+           Both end of the channel has different behaviors, so for analysis on fee, it makes sense to look at the channel end, rather than the Channels. 
           <p> Key Insight: 
             </p>
           <ul>
@@ -30,8 +30,8 @@
               <!-- Add more <li> elements as needed -->
           </ul>
         </div>
-        <iframe src="../viz/base_fee_distribution.png" width="100%" height="1000px" frameborder="0"></iframe>  
-        <iframe src="../viz/fee_rate_distribution.png" width="100%" height="1000px" frameborder="0"></iframe>  
+        <iframe src="../viz/base_fee_distribution.png" width="100%" height="600px" frameborder="0"></iframe>  
+        <iframe src="../viz/fee_rate_distribution.png" width="100%" height="600px" frameborder="0"></iframe>  
       </div>
 
                 <!-- /.container-fluid -->
