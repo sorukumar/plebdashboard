@@ -1,84 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<body onload="includeHTML()">
-  <div include-html="includes/header.html"></div>
-  <style>
-    table {
-      width: 80%;
-      margin: 40px auto; /* Increased gap before and after the table */
-      border-collapse: collapse;
-  }
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  th, td {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-  }
+    <title>Prank (Pleb Ranking)</title>
 
-  th {
-      background-color: #f2f2f2;
-  }
+    <!-- Custom fonts for this template -->
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  ol {
-      text-align: left;
-      margin: 20px auto;
-      max-width: 800px;
-  }
+    <!-- Custom styles for this template -->
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
-  li {
-      margin-bottom: 10px;
-  }
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
 
-  #infoTable {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-#infoTable th, #infoTable td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-#infoTable th {
-    background-color: #f2f2f2;
-}
-
-input#filterInput {
-    margin-bottom: 10px;
-    width: 300px;
-    padding: 8px;
-}
-
-
-</style>
 <body id="page-top">
-
-    <!-- Page Wrapper -->
     <div id="wrapper">
-      <div include-html="includes/side-nav.html"></div>
-        <!-- Content Wrapper -->
+        <div include-html="includes/side-nav.html"></div>
+        
         <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
             <div id="content">
-      <div include-html="includes/top-nav.html"></div>
-      <!-- Begin Page Content -->
+                <div include-html="includes/top-nav.html"></div>
+                
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Prank (Pleb Ranking)</h1>
-                    <p class="mb-4">PRank is a custom method to rank nodes. We look at multiple weighted centrality measures to rank nodes. To learn about centrality read <a target="_blank"
-                            href="https://sorukumar.github.io/blog/lightning/technical/2024/04/12/Centrality-Measures-Lightning-Network.html">Centrality Measure</a>.</p>
+                    <p class="mb-4">PRank is a custom method to rank nodes. We look at multiple weighted centrality measures to rank nodes. To learn about centrality read <a target="_blank" href="https://sorukumar.github.io/blog/lightning/technical/2024/04/12/Centrality-Measures-Lightning-Network.html">Centrality Measure</a>.</p>
 
-                    <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                          <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for nodes...">
+                            <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for nodes...">
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                
                                 <table id="infoTable" class="tablesorter">
                                     <thead>
                                         <tr>
@@ -94,24 +53,18 @@ input#filterInput {
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- /.container-fluid -->
-</div>
-
-      <div include-html="includes/footer.html"></div>
             </div>
-        <!-- End of Content Wrapper -->
 
-      </div>
-    <!-- End of Page Wrapper -->
+            <div include-html="includes/footer.html"></div>
+        </div>
+    </div>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-  
-    <script src="../js/include.js"></script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -128,51 +81,118 @@ input#filterInput {
 
     <!-- Page level custom scripts -->
     <script src="../js/demo/datatables-demo.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Additional required scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
-                download: true,
-                header: true,
-                complete: function(results) {
-                    const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
-                    results.data.forEach(function(item) {
-                        let row = table.insertRow();
-                        Object.values(item).forEach(function(val, index) {
-                            let cell = row.insertCell();
-                    // Assuming the third column should be clickable
-                    if (index === 11) {
-                        cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
-                    } else {
-                        cell.textContent = val;
+    document.addEventListener("DOMContentLoaded", function() {
+        // Step 1: Include HTML components (sidebar and navbar)
+        includeHTML(function() {
+            // Step 2: Load initial content and first 100 records
+            loadInitialContent();
+            
+            // Step 3: Load remaining data in the background
+            loadRemainingData();
+        });
+    });
+
+    function includeHTML(callback) {
+        var z, i, elmnt, file, xhttp;
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            file = elmnt.getAttribute("include-html");
+            if (file) {
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                        if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                        elmnt.removeAttribute("include-html");
+                        includeHTML(callback);
                     }
-                });
-                    });
-                    $("#infoTable").tablesorter();
+                }      
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                return;
+            }
+        }
+        if (callback) callback();
+    }
+
+    function loadInitialContent() {
+        Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
+            download: true,
+            header: true,
+            preview: 100, // Load only first 100 records
+            complete: function(results) {
+                populateTable(results.data);
+                $("#infoTable").tablesorter();
+            }
+        });
+    }
+
+    function loadRemainingData() {
+        Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
+            download: true,
+            header: true,
+            skipFirstNLines: 100, // Skip the first 100 records we've already loaded
+            complete: function(results) {
+                appendToTable(results.data);
+            }
+        });
+    }
+
+    function populateTable(data) {
+        const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+        data.forEach(function(item) {
+            let row = table.insertRow();
+            Object.values(item).forEach(function(val, index) {
+                let cell = row.insertCell();
+                if (index === 11) {
+                    cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                } else {
+                    cell.textContent = val;
                 }
             });
         });
+    }
 
-
-        function filterTable() {
-            let input = document.getElementById("filterInput");
-            let filter = input.value.toUpperCase();
-            let table = document.getElementById("infoTable");
-            let tr = table.getElementsByTagName("tr");
-            for (let i = 1; i < tr.length; i++) {
-                let tds = tr[i].getElementsByTagName("td");
-                let found = false;
-                for (let j = 0; j < tds.length; j++) {
-                    if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
-                        found = true;
-                        break;
-                    }
+    function appendToTable(data) {
+        const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+        data.forEach(function(item) {
+            let row = table.insertRow();
+            Object.values(item).forEach(function(val, index) {
+                let cell = row.insertCell();
+                if (index === 11) {
+                    cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                } else {
+                    cell.textContent = val;
                 }
-                tr[i].style.display = found ? "" : "none";
+            });
+        });
+        $("#infoTable").trigger("update");
+    }
+
+    function filterTable() {
+        let input = document.getElementById("filterInput");
+        let filter = input.value.toUpperCase();
+        let table = document.getElementById("infoTable");
+        let tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            let tds = tr[i].getElementsByTagName("td");
+            let found = false;
+            for (let j = 0; j < tds.length; j++) {
+                if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
             }
+            tr[i].style.display = found ? "" : "none";
         }
+    }
     </script>
 </body>
 </html>
