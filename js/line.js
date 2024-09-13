@@ -1,11 +1,9 @@
-// Parse the CSV file and prepare the data
 Papa.parse("data/NodeES.csv", {
     download: true,
     header: true,
     complete: function(results) {
-        console.log('Parsed Data:', results.data); // Log the parsed data to verify
+        console.log('Parsed Data:', results.data); // Check if the data is being loaded correctly
 
-        // Filter out any empty rows and rows with missing data
         const filteredData = results.data.filter(item => 
             item.Node_Cap_Tier &&
             item.Node_Percentage &&
@@ -13,89 +11,62 @@ Papa.parse("data/NodeES.csv", {
             item.Channel_Percentage
         );
 
-        console.log('Filtered Data:', filteredData); // Log filtered data
+        console.log('Filtered Data:', filteredData); // Check if the data is being filtered correctly
 
-        // Aggregate data for normalization
-        const aggregateData = {
-            Powerhouse: { Node: 0, Capacity: 0, Channel: 0 },
-            Pillers: { Node: 0, Capacity: 0, Channel: 0 },
-            Plebs: { Node: 0, Capacity: 0, Channel: 0 }
+        // Prepare the tooltip data
+        const tooltipData = {
+            Powerhouse: null,
+            Pillers: null,
+            Plebs: null
         };
 
         filteredData.forEach(item => {
-            let category = item.Node_Cap_Tier.trim(); // Ensure no leading/trailing spaces
-
-            // Handle plural forms by normalizing category names
+            let category = item.Node_Cap_Tier.trim();
             if (category === 'Powerhouses') category = 'Powerhouse';
             if (category === 'Pillars') category = 'Pillers';
 
-            if (aggregateData[category] !== undefined) {
-                // Log individual values for debugging
-                aggregateData[category].Node += parseFloat(item.Node_Percentage) || 0;
-                aggregateData[category].Capacity += parseFloat(item.Capacity_Percentage) || 0;
-                aggregateData[category].Channel += parseFloat(item.Channel_Percentage) || 0;
-            } else {
-                console.warn('Unexpected Category:', category); // Log unexpected categories
-            }
+            tooltipData[category] = {
+                Num_Nodes: item.Num_Nodes,
+                Node_Percentage: item.Node_Percentage,
+                Capacity_Percentage: item.Capacity_Percentage,
+                Channel_Percentage: item.Channel_Percentage,
+                Lowest_PRank: item.Lowest_PRank,
+                Highest_PRank: item.Highest_PRank
+            };
         });
 
-        console.log('Aggregated Data:', aggregateData); // Log aggregated data
+        console.log('Tooltip Data:', tooltipData); // Ensure tooltip data is correct
 
-        // Normalize data to 0-100 range
-        const normalizeCategory = (categoryData) => {
-            const total = categoryData.Powerhouse + categoryData.Pillers + categoryData.Plebs;
-            console.log(`Total for normalization: ${total}`); // Log total for normalization
-            return {
-                Powerhouse: (categoryData.Powerhouse / total) * 100 || 0,
-                Pillers: (categoryData.Pillers / total) * 100 || 0,
-                Plebs: (categoryData.Plebs / total) * 100 || 0
-            };
+        // Use the parsed data directly without further normalization
+        const nodeData = {
+            Powerhouse: parseFloat(tooltipData.Powerhouse.Node_Percentage) * 100,
+            Pillers: parseFloat(tooltipData.Pillers.Node_Percentage) * 100,
+            Plebs: parseFloat(tooltipData.Plebs.Node_Percentage) * 100
         };
 
-        const normalizedNodeData = normalizeCategory({
-            Powerhouse: aggregateData.Powerhouse.Node,
-            Pillers: aggregateData.Pillers.Node,
-            Plebs: aggregateData.Plebs.Node
-        });
+        const capacityData = {
+            Powerhouse: parseFloat(tooltipData.Powerhouse.Capacity_Percentage) * 100,
+            Pillers: parseFloat(tooltipData.Pillers.Capacity_Percentage) * 100,
+            Plebs: parseFloat(tooltipData.Plebs.Capacity_Percentage) * 100
+        };
 
-        const normalizedCapacityData = normalizeCategory({
-            Powerhouse: aggregateData.Powerhouse.Capacity,
-            Pillers: aggregateData.Pillers.Capacity,
-            Plebs: aggregateData.Plebs.Capacity
-        });
+        const channelData = {
+            Powerhouse: parseFloat(tooltipData.Powerhouse.Channel_Percentage) * 100,
+            Pillers: parseFloat(tooltipData.Pillers.Channel_Percentage) * 100,
+            Plebs: parseFloat(tooltipData.Plebs.Channel_Percentage) * 100
+        };
 
-        const normalizedChannelData = normalizeCategory({
-            Powerhouse: aggregateData.Powerhouse.Channel,
-            Pillers: aggregateData.Pillers.Channel,
-            Plebs: aggregateData.Plebs.Channel
-        });
-
-        console.log('Normalized Data:', {
-            Node: normalizedNodeData,
-            Capacity: normalizedCapacityData,
-            Channel: normalizedChannelData
-        });
-
-        // Additional logs for debugging
-        console.log('Normalized Node Powerhouse:', normalizedNodeData.Powerhouse);
-        console.log('Normalized Node Pillers:', normalizedNodeData.Pillers);
-        console.log('Normalized Node Plebs:', normalizedNodeData.Plebs);
-
-        // Draw the chart with the normalized data
-        drawStackedBarChart([
-            {
-                Node: normalizedNodeData,
-                Capacity: normalizedCapacityData,
-                Channel: normalizedChannelData
-            }
-        ]);
+        // Draw the chart with this data
+        drawStackedBarChart([{
+            Node: nodeData,
+            Capacity: capacityData,
+            Channel: channelData
+        }], tooltipData);
     }
 });
 
-function drawStackedBarChart(data) {
+function drawStackedBarChart(data, tooltipData) {
     const ctx = document.getElementById('nodeChart').getContext('2d');
-
-    console.log('Chart Data:', data); // Log data passed to the chart
 
     const labels = ['Node Percentage', 'Capacity Percentage', 'Channel Percentage'];
     const datasets = [
@@ -134,6 +105,8 @@ function drawStackedBarChart(data) {
         }
     ];
 
+    console.log('Chart Data:', datasets); // Log chart data to make sure it's valid
+
     new Chart(ctx, {
         type: 'bar',
         data: {
@@ -145,11 +118,11 @@ function drawStackedBarChart(data) {
             scales: {
                 x: {
                     beginAtZero: true,
-                    max: 100, // Set x-axis maximum to 100 to represent percentage
+                    max: 100,
                     stacked: true,
                     ticks: {
                         callback: function(value) {
-                            return value + '%'; // Show percentage sign on the x-axis
+                            return value + '%'; 
                         }
                     },
                     title: {
@@ -159,10 +132,6 @@ function drawStackedBarChart(data) {
                 },
                 y: {
                     stacked: true,
-                    // title: {
-                    //     display: true,
-                    //     text: 'Metrics'
-                    // }
                 }
             },
             plugins: {
@@ -171,14 +140,24 @@ function drawStackedBarChart(data) {
                         label: function(tooltipItem) {
                             const datasetLabel = tooltipItem.dataset.label;
                             const value = tooltipItem.raw;
-                            return `${datasetLabel}: ${value > 15 ? value.toFixed(0) : value.toFixed(1)  }%`; // Format tooltip value as percentage
+
+                            const category = datasetLabel === 'Powerhouse' ? 'Powerhouse' : 
+                                             datasetLabel === 'Pillers' ? 'Pillers' : 'Plebs';
+
+                            const nodeData = tooltipData[category];
+                            return `${datasetLabel}: ${value > 15 ? value.toFixed(0) : value.toFixed(1)}%\n` +
+                                   `Nodes: ${nodeData.Num_Nodes}\n` +
+                                   `Node: ${nodeData.Node_Percentage}%\n` +
+                                   `Capacity: ${nodeData.Capacity_Percentage}%\n` +
+                                   `Channel: ${nodeData.Channel_Percentage}%\n` +
+                                   `Lowest PRank: ${nodeData.Lowest_PRank}\n` +
+                                   `Highest PRank: ${nodeData.Highest_PRank}`;
                         }
                     }
                 },
                 legend: {
                     position: 'top',
-                    display: false // This disables the legend
-
+                    display: false 
                 }
             }
         }
