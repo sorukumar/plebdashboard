@@ -25,7 +25,6 @@
                         Effective_Fee_Rate_BPS: row[4]
                     });
                 }
-<<<<<<< HEAD:graph.js
             }
 
             // Step 4: Create the line chart using Chart.js
@@ -90,25 +89,3 @@
             });
         })
         .catch(error => console.error('Error loading the CSV file:', error));
-=======
-              },
-             scales: {
-                 x: {
-                     title: {
-                         display: true,
-                         text: 'Transaction Size'
-                     }
-                 },
-                 y: {
-                     title: {
-                         display: true,
-                         text: 'Effective Fee Rate (BPS)'
-                     },
-                     beginAtZero: false
-                 }
-             }
-         }
-     });
- })
- .catch(error => console.error('Error loading the CSV file:', error));
->>>>>>> origin/main:js/graph.js

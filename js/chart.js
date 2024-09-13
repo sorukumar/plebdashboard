@@ -58,7 +58,6 @@
             drawChart(normalizedData, aggregateData);
         }
     });
-<<<<<<< HEAD:chart.js
 
     function drawChart(data, aggregateData) {
         const ctx = document.getElementById('myChart').getContext('2d');
@@ -155,6 +154,3 @@ Unique Nodes: ${numUniqueNodes}`;
             }
         });
     }
-=======
-}
->>>>>>> origin/main:js/chart.js
