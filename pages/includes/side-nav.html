@@ -2,7 +2,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../../index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../index.html">
                 <div class="sidebar-brand-text">Plebdashboard</div>
             </a>
 
@@ -34,9 +34,18 @@
                 <div id="node" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item text-wrap" href="node1.html">Node Visualization</a>
-                        <a class="collapse-item text-wrap" href="node2.html">Node2</a>
-                        <a class="collapse-item text-wrap" href="NodeSegmentation.html">Node Segmentation</a>
+                        <a class="collapse-item text-wrap" href="node1.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Node Visualization</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="node2.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Node2</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="NodeSegmentation.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Node Segmentation</span>
+                        </a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -50,8 +59,14 @@
                 <div id="channel" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item text-wrap" href="channel1.html">Distribution of Nodes by Capacity</a>
-                        <a class="collapse-item text-wrap" href="channel2.html">Distribution of Channels by fee rate</a>
+                        <a class="collapse-item text-wrap" href="channel1.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Distribution of Nodes by Capacity</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="chnldistfeebucket.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Distribution of Channels by fee rate</span>
+                        </a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -65,19 +80,53 @@
                 <div id="lngraph" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item text-wrap " href="LorenzCurve.html">Lorenz Curve</a>
+                        <a class="collapse-item text-wrap" href="LorenzCurve.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Lorenz Curve</span>
+                        </a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
             </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="ranking.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Rankings</span></a>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item active">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#rank" aria-expanded="true"
+                    aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Rank</span>
+                </a>
+                <div id="rank" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item text-wrap" href="ranking.html">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>Rankings</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="prank.html">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>PRank</span>
+                        </a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
             </li>
-
+            <li class="nav-item active">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#playground" aria-expanded="true"
+                    aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Playground</span>
+                </a>
+                <div id="playground" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item text-wrap" href="wip.html">
+                            <i class="fas fa-fw fa-wrench"></i>
+                            <span>WIP</span>
+                        </a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
