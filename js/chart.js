@@ -57,7 +57,7 @@ function drawChart(data, aggregateData) {
     const chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Channel', 'Capacity'],
+            labels: ['Channel Percentage', 'Capacity Percentage'],
             datasets: Object.keys(data.Channel).map(category => ({
                 label: descriptiveLabels[category],
                 data: [data.Channel[category], data.Capacity[category]],
