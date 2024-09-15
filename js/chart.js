@@ -3,7 +3,7 @@ Chart.register(ChartDataLabels);
 
 // Function to parse CSV and create chart
 function createChannelChart() {
-    Papa.parse("data/ChannelES.csv", {
+    Papa.parse("../data/ChannelES.csv", {
         download: true,
         header: true,
         complete: function(results) {
