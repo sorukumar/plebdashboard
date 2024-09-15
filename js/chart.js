@@ -9,6 +9,7 @@ function createChannelChart() {
         }
     });
 }
+
 // Function to process CSV data
 function processData(rawData) {
     const categories = ['Myway', 'Highway', 'Freeway'];
@@ -48,9 +49,9 @@ function drawChart(data, aggregateData) {
 
     // Define descriptive labels for legend
     const descriptiveLabels = {
-        Myway: 'Myway (<= 5M Sats)',
-        Highway: 'Highway (> 5M Sats)',
-        Freeway: 'Freeway (> 1 BTC)'
+        Myway: 'Myway (Small Channels)',
+        Highway: 'Highway (Medium Channels)',
+        Freeway: 'Freeway (Large Channels)'
     };
 
     const chart = new Chart(ctx, {
@@ -125,7 +126,7 @@ function drawChart(data, aggregateData) {
                 }
             }
         },
-        // plugins: [ChartDataLabels] // Add this line to enable data labels
+        plugins: [ChartDataLabels] // Add this line to enable data labels
     });
 }
 
