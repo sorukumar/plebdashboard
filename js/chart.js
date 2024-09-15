@@ -57,7 +57,7 @@ function drawChart(data, aggregateData) {
     const chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Channel Percentage', 'Capacity Percentage'],
+            labels: ['Channel', 'Capacity'],
             datasets: Object.keys(data.Channel).map(category => ({
                 label: descriptiveLabels[category],
                 data: [data.Channel[category], data.Capacity[category]],
@@ -126,7 +126,7 @@ function drawChart(data, aggregateData) {
                 }
             }
         },
-        plugins: [ChartDataLabels] // Add this line to enable data labels
+        // plugins: [ChartDataLabels] // Add this line to enable data labels
     });
 }
 
