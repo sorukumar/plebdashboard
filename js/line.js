@@ -79,8 +79,8 @@ function drawNodeChart(data, tooltipData) {
     // Define chart colors and descriptive labels
     const categoryConfig = {
         Powerhouses: { color: 'rgba(255, 99, 132, 0.7)', border: 'rgba(255, 99, 132, 1)', label: 'Powerhouses (> 5 BTC)' },
-        Pillars: { color: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)', label: 'Pillars (> 5M Sats)' },
-        Plebs: { color: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)', label: 'Plebs (<= 5M Sats)' }
+        Pillars: { color: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)', label: 'Pillars (> 10M Sats)' },
+        Plebs: { color: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)', label: 'Plebs (<= 10M Sats)' }
     };
 
     const labels = ['Node', 'Capacity', 'Channel'];
