@@ -1,21 +1,11 @@
 // Function to parse CSV and create chart
 function createChannelChart() {
-    Papa.parse('data/ChannelES.csv', {
+    Papa.parse("data/ChannelES.csv", {
         download: true,
-        header: true, // Treat first row as header
-        skipEmptyLines: true, // Skip empty lines
+        header: true,
         complete: function(results) {
-            const parsedData = results.data;
-            console.log('Parsed Data:', parsedData[0);  // Debug: Log parsed data
-            if (parsedData.length > 0) {
-                const data = processData(parsedData); 
-                drawChart(data.normalizedData, data.aggregateData);  
-            } else {
-                console.error('No valid data found in CSV');
-            }
-        },
-        error: function(error) {
-            console.error('Error fetching the CSV file:', error);
+            const data = processData(results.data);
+            drawChart(data.normalizedData, data.aggregateData);
         }
     });
 }
