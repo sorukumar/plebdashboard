@@ -12,26 +12,43 @@ function createNodeChart() {
 
 // Function to process CSV data
 function processNodeData(rawData) {
+    console.log('Raw Data:', rawData);
+
     const categories = ['Powerhouse', 'Pillers', 'Plebs'];
     const metrics = ['Node', 'Capacity', 'Channel'];
 
     const tooltipData = categories.reduce((acc, category) => {
         const item = rawData.find(item => {
-            const nodeTier = item.Node_Cap_Tier.trim();
-            return nodeTier === (category === 'Pillers' ? 'Pillars' : category + 's');
+            const nodeTier = item.Node_Cap_Tier && item.Node_Cap_Tier.trim();
+            return nodeTier === (category === 'Powerhouse' ? 'Powerhouses' : 
+                                 category === 'Pillers' ? 'Pillars' : 'Plebs');
         });
         
-        acc[category] = item ? {
-            Num_Nodes: item.Num_Nodes,
-            Node_Percentage: item.Node_Percentage,
-            Capacity_Percentage: item.Capacity_Percentage,
-            Channel_Percentage: item.Channel_Percentage,
-            Lowest_PRank: item.Lowest_PRank,
-            Highest_PRank: item.Highest_PRank
-        } : null;
+        if (item) {
+            acc[category] = {
+                Num_Nodes: item.Num_Nodes,
+                Node_Percentage: item.Node_Percentage,
+                Capacity_Percentage: item.Capacity_Percentage,
+                Channel_Percentage: item.Channel_Percentage,
+                Lowest_PRank: item.Lowest_PRank,
+                Highest_PRank: item.Highest_PRank
+            };
+        } else {
+            console.warn(`Data for ${category} not found`);
+            acc[category] = {
+                Num_Nodes: '0',
+                Node_Percentage: '0',
+                Capacity_Percentage: '0',
+                Channel_Percentage: '0',
+                Lowest_PRank: '0',
+                Highest_PRank: '0'
+            };
+        }
         
         return acc;
     }, {});
+
+    console.log('Tooltip Data:', tooltipData);
 
     const chartData = metrics.reduce((acc, metric) => {
         acc[metric] = categories.reduce((innerAcc, category) => {
@@ -40,6 +57,8 @@ function processNodeData(rawData) {
         }, {});
         return acc;
     }, {});
+
+    console.log('Chart Data:', chartData);
 
     return { chartData, tooltipData };
 }
