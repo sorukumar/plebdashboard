@@ -3,15 +3,17 @@ Chart.register(ChartDataLabels);
 
 // Function to parse CSV and create chart
 function createChannelChart() {
+    console.log('Creating channel chart...');
     Papa.parse("data/ChannelES.csv", {
         download: true,
         header: true,
         complete: function(results) {
-            console.log('Papa Parse Results:', results);
+            console.log('CSV parsing complete');
             if (results.errors.length > 0) {
-                console.error('Papa Parse Errors:', results.errors);
+                console.error('CSV parsing errors:', results.errors);
             }
             if (results.data && results.data.length > 0) {
+                console.log('Processing data...');
                 const data = processData(results.data);
                 drawChart(data.normalizedData, data.aggregateData);
             } else {
@@ -19,14 +21,14 @@ function createChannelChart() {
             }
         },
         error: function(error) {
-            console.error('Papa Parse Error:', error);
+            console.error('Papa Parse error:', error);
         }
     });
 }
 
 // Function to process CSV data
 function processData(rawData) {
-    console.log('Raw Data:', rawData);
+    console.log('Raw data:', rawData);
 
     const categories = ['My Way', 'Highway', 'Freeway'];
     const metrics = ['Channel', 'Capacity'];
@@ -36,8 +38,8 @@ function processData(rawData) {
         if (item) {
             acc[category] = {
                 Num_Channels: item.Num_Channels,
-                Channel_Percentage: item.Channel_Percentage,
-                Capacity_Percentage: item.Capacity_Percentage,
+                Channel_Percentage: parseFloat(item.Channel_Percentage),
+                Capacity_Percentage: parseFloat(item.Capacity_Percentage),
                 Num_Unique_Nodes: item.Num_Unique_Nodes,
                 Total_Capacity: item.Total_Capacity
             };
@@ -45,8 +47,8 @@ function processData(rawData) {
             console.warn(`Data for ${category} not found`);
             acc[category] = {
                 Num_Channels: '0',
-                Channel_Percentage: '0',
-                Capacity_Percentage: '0',
+                Channel_Percentage: 0,
+                Capacity_Percentage: 0,
                 Num_Unique_Nodes: '0',
                 Total_Capacity: '0'
             };
@@ -54,23 +56,24 @@ function processData(rawData) {
         return acc;
     }, {});
 
-    console.log('Aggregate Data:', aggregateData);
+    console.log('Aggregate data:', aggregateData);
 
     const normalizedData = metrics.reduce((acc, metric) => {
         acc[metric] = categories.reduce((innerAcc, category) => {
-            innerAcc[category] = parseFloat(aggregateData[category][`${metric}_Percentage`]) * 100;
+            innerAcc[category] = aggregateData[category][`${metric}_Percentage`] * 100;
             return innerAcc;
         }, {});
         return acc;
     }, {});
 
-    console.log('Normalized Data:', normalizedData);
+    console.log('Normalized data:', normalizedData);
 
     return { normalizedData, aggregateData };
 }
 
 // Function to draw the chart
 function drawChart(data, aggregateData) {
+    console.log('Drawing chart...');
     const ctx = document.getElementById('myChart').getContext('2d');
 
     // Define chart colors
@@ -101,6 +104,7 @@ function drawChart(data, aggregateData) {
         },
         options: {
             indexAxis: 'y',
+            responsive: true,
             scales: {
                 x: {
                     beginAtZero: true,
@@ -133,8 +137,8 @@ function drawChart(data, aggregateData) {
                             return [
                                 `${context.dataset.label}: ${value.toFixed(1)}%`,
                                 `Num Channels: ${extraInfo.Num_Channels}`,
-                                `Channel Percentage: ${(parseFloat(extraInfo.Channel_Percentage) * 100).toFixed(1)}%`,
-                                `Capacity Percentage: ${(parseFloat(extraInfo.Capacity_Percentage) * 100).toFixed(1)}%`,
+                                `Channel Percentage: ${(extraInfo.Channel_Percentage * 100).toFixed(1)}%`,
+                                `Capacity Percentage: ${(extraInfo.Capacity_Percentage * 100).toFixed(1)}%`,
                                 `Unique Nodes: ${extraInfo.Num_Unique_Nodes}`,
                                 `Total Capacity: ${parseInt(extraInfo.Total_Capacity).toLocaleString()}`
                             ];
@@ -160,7 +164,9 @@ function drawChart(data, aggregateData) {
             }
         }
     });
+    console.log('Chart drawn');
 }
 
 // Call the function to create the chart
+console.log('Initializing chart creation...');
 createChannelChart();
