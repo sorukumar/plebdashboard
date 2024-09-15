@@ -1,14 +1,21 @@
+console.log('Script loaded');
+console.log('Chart object:', Chart);
+console.log('Papa object:', Papa);
+
 // Register the plugin
 Chart.register(ChartDataLabels);
+console.log('ChartDataLabels registered');
 
 // Function to parse CSV and create chart
 function createChannelChart() {
     console.log('Creating channel chart...');
+    console.log('Canvas element:', document.getElementById('myChart'));
     Papa.parse("data/ChannelES.csv", {
         download: true,
         header: true,
         complete: function(results) {
             console.log('CSV parsing complete');
+            console.log('CSV content:', results.data);
             if (results.errors.length > 0) {
                 console.error('CSV parsing errors:', results.errors);
             }
@@ -74,7 +81,10 @@ function processData(rawData) {
 // Function to draw the chart
 function drawChart(data, aggregateData) {
     console.log('Drawing chart...');
+    console.log('Chart data:', data);
+    console.log('Aggregate data:', aggregateData);
     const ctx = document.getElementById('myChart').getContext('2d');
+    console.log('Chart context:', ctx);
 
     // Define chart colors
     const colors = {
@@ -90,7 +100,7 @@ function drawChart(data, aggregateData) {
         'Freeway': 'Freeway (Large Channels)'
     };
 
-    new Chart(ctx, {
+    const chartConfig = {
         type: 'bar',
         data: {
             labels: ['Channel', 'Capacity'],
@@ -163,10 +173,68 @@ function drawChart(data, aggregateData) {
                 }
             }
         }
-    });
-    console.log('Chart drawn');
+    };
+
+    console.log('Chart configuration:', chartConfig);
+
+    try {
+        const myChart = new Chart(ctx, chartConfig);
+        console.log('Chart instance created:', myChart);
+    } catch (error) {
+        console.error('Error creating chart:', error);
+    }
+
+    console.log('Chart drawing complete');
 }
 
-// Call the function to create the chart
+// Function to create a simple test chart
+function createSimpleChart() {
+    console.log('Creating simple chart...');
+    const ctx = document.getElementById('myChart').getContext('2d');
+    try {
+        const simpleChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        console.log('Simple chart instance created:', simpleChart);
+    } catch (error) {
+        console.error('Error creating simple chart:', error);
+    }
+    console.log('Simple chart creation complete');
+}
+
+// Call the functions to create the charts
 console.log('Initializing chart creation...');
 createChannelChart();
+createSimpleChart();
+console.log('Chart initialization complete');
