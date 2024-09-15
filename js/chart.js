@@ -3,7 +3,7 @@ Chart.register(ChartDataLabels);
 
 // Function to parse CSV and create chart
 function createChannelChart() {
-    Papa.parse("../data/ChannelES.csv", {
+    Papa.parse("data/ChannelES.csv", {
         download: true,
         header: true,
         complete: function(results) {
@@ -28,31 +28,37 @@ function createChannelChart() {
 function processData(rawData) {
     console.log('Raw Data:', rawData);
 
-    const categories = ['Myway', 'Highway', 'Freeway'];
+    const categories = ['My Way', 'Highway', 'Freeway'];
     const metrics = ['Channel', 'Capacity'];
     
     const aggregateData = categories.reduce((acc, category) => {
-        const item = rawData.find(item => item.Channel_Size_Tier === (category === 'Myway' ? 'My Way' : category));
-        acc[category] = item || {
-            Num_Channels: '0',
-            Channel_Percentage: '0',
-            Capacity_Percentage: '0',
-            Num_Unique_Nodes: '0'
-        };
+        const item = rawData.find(item => item.Channel_Size_Tier === category);
+        if (item) {
+            acc[category] = {
+                Num_Channels: item.Num_Channels,
+                Channel_Percentage: item.Channel_Percentage,
+                Capacity_Percentage: item.Capacity_Percentage,
+                Num_Unique_Nodes: item.Num_Unique_Nodes,
+                Total_Capacity: item.Total_Capacity
+            };
+        } else {
+            console.warn(`Data for ${category} not found`);
+            acc[category] = {
+                Num_Channels: '0',
+                Channel_Percentage: '0',
+                Capacity_Percentage: '0',
+                Num_Unique_Nodes: '0',
+                Total_Capacity: '0'
+            };
+        }
         return acc;
     }, {});
 
     console.log('Aggregate Data:', aggregateData);
 
-    const totals = metrics.reduce((acc, metric) => {
-        acc[metric] = categories.reduce((sum, category) => sum + parseFloat(aggregateData[category][`${metric}_Percentage`] || 0), 0);
-        return acc;
-    }, {});
-
     const normalizedData = metrics.reduce((acc, metric) => {
         acc[metric] = categories.reduce((innerAcc, category) => {
-            const value = parseFloat(aggregateData[category][`${metric}_Percentage`] || 0);
-            innerAcc[category] = totals[metric] > 0 ? (value / totals[metric]) * 100 : 0;
+            innerAcc[category] = parseFloat(aggregateData[category][`${metric}_Percentage`]) * 100;
             return innerAcc;
         }, {});
         return acc;
@@ -69,16 +75,16 @@ function drawChart(data, aggregateData) {
 
     // Define chart colors
     const colors = {
-        Myway: { bg: 'rgba(255, 99, 132, 0.7)', border: 'rgba(255, 99, 132, 1)' },
-        Highway: { bg: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)' },
-        Freeway: { bg: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)' }
+        'My Way': { bg: 'rgba(255, 99, 132, 0.7)', border: 'rgba(255, 99, 132, 1)' },
+        'Highway': { bg: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)' },
+        'Freeway': { bg: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)' }
     };
 
     // Define descriptive labels for legend
     const descriptiveLabels = {
-        Myway: 'Myway (Small Channels)',
-        Highway: 'Highway (Medium Channels)',
-        Freeway: 'Freeway (Large Channels)'
+        'My Way': 'My Way (Small Channels)',
+        'Highway': 'Highway (Medium Channels)',
+        'Freeway': 'Freeway (Large Channels)'
     };
 
     new Chart(ctx, {
@@ -120,16 +126,17 @@ function drawChart(data, aggregateData) {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            const category = context.dataset.label.split(' ')[0];
+                            const category = context.dataset.label.split(' (')[0];
                             const value = context.raw;
                             const extraInfo = aggregateData[category];
 
                             return [
-                                `${context.dataset.label}: ${value > 20 ? value.toFixed(0) : value.toFixed(1)}%`,
-                                `Num Channels: ${extraInfo.Num_Channels || 'N/A'}`,
-                                `Channel Percentage: ${extraInfo.Channel_Percentage || 'N/A'}`,
-                                `Capacity Percentage: ${extraInfo.Capacity_Percentage || 'N/A'}`,
-                                `Unique Nodes: ${extraInfo.Num_Unique_Nodes || 'N/A'}`
+                                `${context.dataset.label}: ${value.toFixed(1)}%`,
+                                `Num Channels: ${extraInfo.Num_Channels}`,
+                                `Channel Percentage: ${(parseFloat(extraInfo.Channel_Percentage) * 100).toFixed(1)}%`,
+                                `Capacity Percentage: ${(parseFloat(extraInfo.Capacity_Percentage) * 100).toFixed(1)}%`,
+                                `Unique Nodes: ${extraInfo.Num_Unique_Nodes}`,
+                                `Total Capacity: ${parseInt(extraInfo.Total_Capacity).toLocaleString()}`
                             ];
                         }
                     }
