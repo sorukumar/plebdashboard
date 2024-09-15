@@ -1,24 +1,48 @@
+// Register the plugin
+Chart.register(ChartDataLabels);
+
 // Function to parse CSV and create chart
 function createChannelChart() {
     Papa.parse("data/ChannelES.csv", {
         download: true,
         header: true,
         complete: function(results) {
-            const data = processData(results.data);
-            drawChart(data.normalizedData, data.aggregateData);
+            console.log('Papa Parse Results:', results);
+            if (results.errors.length > 0) {
+                console.error('Papa Parse Errors:', results.errors);
+            }
+            if (results.data && results.data.length > 0) {
+                const data = processData(results.data);
+                drawChart(data.normalizedData, data.aggregateData);
+            } else {
+                console.error('No data parsed from CSV');
+            }
+        },
+        error: function(error) {
+            console.error('Papa Parse Error:', error);
         }
     });
 }
 
 // Function to process CSV data
 function processData(rawData) {
+    console.log('Raw Data:', rawData);
+
     const categories = ['Myway', 'Highway', 'Freeway'];
     const metrics = ['Channel', 'Capacity'];
     
     const aggregateData = categories.reduce((acc, category) => {
-        acc[category] = rawData.find(item => item.Channel_Size_Tier === (category === 'Myway' ? 'My Way' : category)) || {};
+        const item = rawData.find(item => item.Channel_Size_Tier === (category === 'Myway' ? 'My Way' : category));
+        acc[category] = item || {
+            Num_Channels: '0',
+            Channel_Percentage: '0',
+            Capacity_Percentage: '0',
+            Num_Unique_Nodes: '0'
+        };
         return acc;
     }, {});
+
+    console.log('Aggregate Data:', aggregateData);
 
     const totals = metrics.reduce((acc, metric) => {
         acc[metric] = categories.reduce((sum, category) => sum + parseFloat(aggregateData[category][`${metric}_Percentage`] || 0), 0);
@@ -27,11 +51,14 @@ function processData(rawData) {
 
     const normalizedData = metrics.reduce((acc, metric) => {
         acc[metric] = categories.reduce((innerAcc, category) => {
-            innerAcc[category] = (parseFloat(aggregateData[category][`${metric}_Percentage`] || 0) / totals[metric]) * 100;
+            const value = parseFloat(aggregateData[category][`${metric}_Percentage`] || 0);
+            innerAcc[category] = totals[metric] > 0 ? (value / totals[metric]) * 100 : 0;
             return innerAcc;
         }, {});
         return acc;
     }, {});
+
+    console.log('Normalized Data:', normalizedData);
 
     return { normalizedData, aggregateData };
 }
@@ -54,7 +81,7 @@ function drawChart(data, aggregateData) {
         Freeway: 'Freeway (Large Channels)'
     };
 
-    const chart = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['Channel', 'Capacity'],
@@ -92,13 +119,13 @@ function drawChart(data, aggregateData) {
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function(tooltipItem) {
-                            const category = tooltipItem.dataset.label.split(' ')[0];
-                            const value = tooltipItem.raw;
+                        label: function(context) {
+                            const category = context.dataset.label.split(' ')[0];
+                            const value = context.raw;
                             const extraInfo = aggregateData[category];
 
                             return [
-                                `${tooltipItem.dataset.label}: ${value > 20 ? value.toFixed(0) : value.toFixed(1)}%`,
+                                `${context.dataset.label}: ${value > 20 ? value.toFixed(0) : value.toFixed(1)}%`,
                                 `Num Channels: ${extraInfo.Num_Channels || 'N/A'}`,
                                 `Channel Percentage: ${extraInfo.Channel_Percentage || 'N/A'}`,
                                 `Capacity Percentage: ${extraInfo.Capacity_Percentage || 'N/A'}`,
@@ -109,14 +136,13 @@ function drawChart(data, aggregateData) {
                 },
                 legend: {
                     position: 'top',
-                    display: true, // Enable the legend
+                    display: true,
                     labels: {
                         font: {
                             size: 14
                         }
                     }
                 },
-                // Define data labels here
                 datalabels: {
                     color: '#fff',
                     font: {
@@ -125,8 +151,7 @@ function drawChart(data, aggregateData) {
                     formatter: (value, context) => value > 5 ? value.toFixed(1) + '%' : ''
                 }
             }
-        },
-        // plugins: [ChartDataLabels] // Add this line to enable data labels
+        }
     });
 }
 
