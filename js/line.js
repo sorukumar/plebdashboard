@@ -83,7 +83,7 @@ function drawNodeChart(data, tooltipData) {
         Plebs: { color: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)', label: 'Plebs (Small Nodes)' }
     };
 
-    const labels = ['Node Percentage', 'Capacity Percentage', 'Channel Percentage'];
+    const labels = ['Node', 'Capacity', 'Channel'];
     const datasets = Object.keys(categoryConfig).map(category => ({
         label: categoryConfig[category].label,
         data: [data.Node[category], data.Capacity[category], data.Channel[category]],
