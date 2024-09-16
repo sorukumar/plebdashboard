@@ -128,15 +128,11 @@ function drawChart(data, aggregateData) {
                     font: {
                         weight: 'bold'
                     },
-                    formatter: (value, context) => {
-              if (value < 5) {
-            return value.toFixed(1) + '%'; // Show one decimal place for values less than 10%
-        } else {
-            return Math.round(value) + '%'; // Round to nearest integer for values 10% and above
+                    formatter: (value, context) => value > 5 ? value.toFixed(1) + '%' : ''
                 }
             }
         },
-    }
+    });
 }
 
 // Call the function to create the chart
