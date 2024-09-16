@@ -63,7 +63,7 @@ function drawChart(data, aggregateData) {
                 data: [data.Channel[category], data.Capacity[category]],
                 backgroundColor: colors[category].bg,
                 borderColor: colors[category].border,
-                borderWidth: 1
+                borderWidth: 0
             }))
         },
         options: {
