@@ -4,15 +4,8 @@ function createChannelChart() {
         download: true,
         header: true,
         complete: function(results) {
-            if (results.errors.length > 0) {
-                console.error("CSV parsing errors:", results.errors);
-                return;
-            }
             const data = processData(results.data);
             drawChart(data.normalizedData, data.aggregateData);
-        },
-        error: function(error) {
-            console.error("CSV loading error:", error);
         }
     });
 }
@@ -74,12 +67,6 @@ function drawChart(data, aggregateData) {
             }))
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-                duration: 1000,
-                easing: 'easeOutQuart'
-            },
             indexAxis: 'y',
             scales: {
                 x: {
@@ -90,14 +77,14 @@ function drawChart(data, aggregateData) {
                         callback: value => value + '%'
                     },
                     title: {
-                        display: false,
+                        display: true,
                         text: 'Percentage (%)'
                     }
                 },
                 y: {
                     stacked: true,
                     title: {
-                        display: false,
+                        display: true,
                         text: 'Metrics'
                     }
                 }
