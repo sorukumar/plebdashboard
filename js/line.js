@@ -113,6 +113,12 @@ function drawNodeChart(data, tooltipData) {
                     grid: {
                         display: false // This removes the grid lines
                     },
+                    ticks: {
+                        display: true // Ensures the y-axis labels are displayed
+                    },
+                    border: {
+                        display: false // This removes the y-axis line
+                    }
                 }
             },
             plugins: {
