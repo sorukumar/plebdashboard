@@ -148,7 +148,7 @@ function drawNodeChart(data, tooltipData) {
                 datalabels: {
                     color: '#fff',
                     font: { weight: 'bold' },
-                    formatter: (value, context) => value > 5 ? value.toFixed(1) + '%' : ''
+                    formatter: (value, context) => value > 0.1 ? value.toFixed(1) + '%' : ''
                 }
             }
         }
