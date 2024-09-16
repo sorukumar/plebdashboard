@@ -86,6 +86,12 @@ function drawChart(data, aggregateData) {
                     },
                     title: {
                         display: false
+                    },
+                    ticks: {
+                        display: true // Ensures the y-axis labels are displayed
+                    },
+                    border: {
+                        display: false // This removes the y-axis line
                     }
                 }
             },
