@@ -138,7 +138,7 @@ function drawChart(data, aggregateData) {
                 }
             }
         },
-    });
+    };
 }
 
 // Call the function to create the chart
