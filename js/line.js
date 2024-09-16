@@ -1,45 +1,73 @@
+// Register the plugin
+Chart.register(ChartDataLabels);
+
 // Function to create the node chart
 function createNodeChart() {
     Papa.parse("data/NodeES.csv", {
         download: true,
         header: true,
         complete: function(results) {
-            const { chartData, tooltipData } = processNodeData(results.data);
-            drawNodeChart(chartData, tooltipData);
+            console.log('Papa Parse Results:', results);
+            if (results.errors.length > 0) {
+                console.error('Papa Parse Errors:', results.errors);
+            }
+            if (results.data && results.data.length > 0) {
+                const { chartData, tooltipData } = processNodeData(results.data);
+                drawNodeChart(chartData, tooltipData);
+            } else {
+                console.error('No data parsed from CSV');
+            }
+        },
+        error: function(error) {
+            console.error('Papa Parse Error:', error);
         }
     });
 }
 
 // Function to process CSV data
 function processNodeData(rawData) {
-    const categories = ['Powerhouse', 'Pillers', 'Plebs'];
+    console.log('Raw Data:', rawData);
+
+    const categories = ['Powerhouses', 'Pillars', 'Plebs'];
     const metrics = ['Node', 'Capacity', 'Channel'];
 
-    const tooltipData = categories.reduce((acc, category) => {
-        const item = rawData.find(item => {
-            const nodeTier = item.Node_Cap_Tier.trim();
-            return nodeTier === (category === 'Pillers' ? 'Pillars' : category + 's');
-        });
-        
-        acc[category] = item ? {
-            Num_Nodes: item.Num_Nodes,
-            Node_Percentage: item.Node_Percentage,
-            Capacity_Percentage: item.Capacity_Percentage,
-            Channel_Percentage: item.Channel_Percentage,
-            Lowest_PRank: item.Lowest_PRank,
-            Highest_PRank: item.Highest_PRank
-        } : null;
-        
-        return acc;
-    }, {});
+    const tooltipData = {};
+    categories.forEach(category => {
+        const item = rawData.find(item => item.Node_Cap_Tier === category);
+        if (item) {
+            tooltipData[category] = {
+                Num_Nodes: item.Num_Nodes,
+                Node_Percentage: item.Node_Percentage,
+                Capacity_Percentage: item.Capacity_Percentage,
+                Channel_Percentage: item.Channel_Percentage,
+                Lowest_PRank: item.Lowest_PRank,
+                Highest_PRank: item.Highest_PRank
+            };
+        } else {
+            console.warn(`Data for ${category} not found`);
+            tooltipData[category] = {
+                Num_Nodes: '0',
+                Node_Percentage: '0',
+                Capacity_Percentage: '0',
+                Channel_Percentage: '0',
+                Lowest_PRank: '0',
+                Highest_PRank: '0'
+            };
+        }
+    });
 
-    const chartData = metrics.reduce((acc, metric) => {
-        acc[metric] = categories.reduce((innerAcc, category) => {
-            innerAcc[category] = parseFloat(tooltipData[category][`${metric}_Percentage`]) * 100;
-            return innerAcc;
-        }, {});
-        return acc;
-    }, {});
+    console.log('Tooltip Data:', tooltipData);
+
+    const chartData = {};
+    metrics.forEach(metric => {
+        chartData[metric] = {};
+        categories.forEach(category => {
+            const value = parseFloat(tooltipData[category][`${metric}_Percentage`]);
+            chartData[metric][category] = isNaN(value) ? 0 : value * 100;
+        });
+    });
+
+    console.log('Chart Data:', chartData);
 
     return { chartData, tooltipData };
 }
@@ -50,12 +78,12 @@ function drawNodeChart(data, tooltipData) {
 
     // Define chart colors and descriptive labels
     const categoryConfig = {
-        Powerhouse: { color: 'rgba(255, 99, 132, 0.7)', border: 'rgba(255, 99, 132, 1)', label: 'Powerhouse (> 5BTC)' },
-        Pillers: { color: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)', label: 'Pillers (> 10M Sats)' },
+        Powerhouses: { color: 'rgba(255, 99, 132, 0.7)', border: 'rgba(255, 99, 132, 1)', label: 'Powerhouses (> 5 BTC)' },
+        Pillars: { color: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)', label: 'Pillars (> 10M Sats)' },
         Plebs: { color: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)', label: 'Plebs (<= 10M Sats)' }
     };
 
-    const labels = ['Nodes', 'Capacity', 'Channel'];
+    const labels = ['Node', 'Capacity', 'Channel'];
     const datasets = Object.keys(categoryConfig).map(category => ({
         label: categoryConfig[category].label,
         data: [data.Node[category], data.Capacity[category], data.Channel[category]],
@@ -71,23 +99,37 @@ function drawNodeChart(data, tooltipData) {
             indexAxis: 'y',
             scales: {
                 x: {
-                    beginAtZero: true,
-                    max: 100,
                     stacked: true,
-                    ticks: { callback: value => value + '%' },
-                    title: { display: true, text: 'Percentage' }
+                    display: false, // This hides the entire x-axis including ticks and labels
+                    grid: {
+                        display: false // This removes the grid lines
+                    },
+                    title: {
+                        display: false
+                    }
                 },
-                y: { stacked: true }
+                y: { 
+                    stacked: true,
+                    grid: {
+                        display: false // This removes the grid lines
+                    },
+                    ticks: {
+                        display: true // Ensures the y-axis labels are displayed
+                    },
+                    border: {
+                        display: false // This removes the y-axis line
+                    }
+                }
             },
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function(tooltipItem) {
-                            const category = tooltipItem.dataset.label.split(' ')[0];
-                            const value = tooltipItem.raw;
+                        label: function(context) {
+                            const category = context.dataset.label.split(' ')[0];
+                            const value = context.raw;
                             const nodeData = tooltipData[category];
                             return [
-                                `${tooltipItem.dataset.label}: ${value > 15 ? value.toFixed(0) : value.toFixed(1)}%`,
+                                `${context.dataset.label}: ${value > 15 ? value.toFixed(0) : value.toFixed(1)}%`,
                                 `Nodes: ${nodeData.Num_Nodes}`,
                                 `Node: ${nodeData.Node_Percentage}%`,
                                 `Capacity: ${nodeData.Capacity_Percentage}%`,
@@ -103,15 +145,13 @@ function drawNodeChart(data, tooltipData) {
                     display: true,
                     labels: { font: { size: 12 } }
                 },
-                // Data labels configuration
                 datalabels: {
                     color: '#fff',
                     font: { weight: 'bold' },
                     formatter: (value, context) => value > 5 ? value.toFixed(1) + '%' : ''
                 }
             }
-        },
-        plugins: [ChartDataLabels] // Enable data labels
+        }
     });
 }
 

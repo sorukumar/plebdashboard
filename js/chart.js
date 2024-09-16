@@ -63,29 +63,35 @@ function drawChart(data, aggregateData) {
                 data: [data.Channel[category], data.Capacity[category]],
                 backgroundColor: colors[category].bg,
                 borderColor: colors[category].border,
-                borderWidth: 1
+                borderWidth: 0
             }))
         },
         options: {
             indexAxis: 'y',
             scales: {
                 x: {
-                    beginAtZero: true,
-                    max: 100,
                     stacked: true,
-                    ticks: {
-                        callback: value => value + '%'
+                    display: false, // This hides the entire x-axis including ticks and labels
+                    grid: {
+                        display: false // This removes the grid lines
                     },
                     title: {
-                        display: true,
-                        text: 'Percentage (%)'
+                        display: false
                     }
                 },
                 y: {
                     stacked: true,
+                    grid: {
+                        display: false // This removes the grid lines
+                    },
                     title: {
-                        display: true,
-                        text: 'Metrics'
+                        display: false
+                    },
+                    ticks: {
+                        display: true // Ensures the y-axis labels are displayed
+                    },
+                    border: {
+                        display: false // This removes the y-axis line
                     }
                 }
             },
@@ -126,7 +132,6 @@ function drawChart(data, aggregateData) {
                 }
             }
         },
-        plugins: [ChartDataLabels] // Add this line to enable data labels
     });
 }
 
