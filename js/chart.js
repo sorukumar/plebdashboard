@@ -81,7 +81,6 @@ function drawChart(data, aggregateData) {
                 },
                 y: {
                     stacked: true,
-                    display: false,
                     grid: {
                         display: false // This removes the grid lines
                     },
