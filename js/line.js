@@ -108,7 +108,12 @@ function drawNodeChart(data, tooltipData) {
                         display: false
                     }
                 },
-                y: { stacked: true }
+                y: { 
+                    stacked: true,
+                    grid: {
+                        display: false // This removes the grid lines
+                    },
+                }
             },
             plugins: {
                 tooltip: {
