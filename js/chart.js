@@ -70,22 +70,19 @@ function drawChart(data, aggregateData) {
             indexAxis: 'y',
             scales: {
                 x: {
-                    beginAtZero: true,
-                    max: 100,
                     stacked: true,
-                    ticks: {
-                        callback: value => value + '%'
+                    display: false, // This hides the entire x-axis including ticks and labels
+                    grid: {
+                        display: false // This removes the grid lines
                     },
                     title: {
-                        display: true,
-                        text: 'Percentage (%)'
+                        display: false
                     }
                 },
                 y: {
                     stacked: true,
                     title: {
-                        display: true,
-                        text: 'Metrics'
+                        display: false
                     }
                 }
             },
