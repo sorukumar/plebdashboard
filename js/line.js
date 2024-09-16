@@ -99,11 +99,14 @@ function drawNodeChart(data, tooltipData) {
             indexAxis: 'y',
             scales: {
                 x: {
-                    beginAtZero: true,
-                    max: 100,
                     stacked: true,
-                    ticks: { callback: value => value + '%' },
-                    title: { display: true, text: 'Percentage' }
+                    display: false, // This hides the entire x-axis including ticks and labels
+                    grid: {
+                        display: false // This removes the grid lines
+                    },
+                    title: {
+                        display: false
+                    }
                 },
                 y: { stacked: true }
             },
