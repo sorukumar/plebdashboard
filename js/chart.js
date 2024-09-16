@@ -13,16 +13,25 @@ function createChannelChart() {
     Papa.parse("data/ChannelES.csv", {
         download: true,
         header: true,
+        delimiter: ",", // explicitly set the delimiter to comma
+        skipEmptyLines: true, // skip empty lines
+        dynamicTyping: true, // automatically convert to number types where appropriate
         complete: function(results) {
             console.log('CSV parsing complete');
             console.log('CSV content:', results.data);
+            console.log('CSV errors:', results.errors);
+            console.log('CSV meta:', results.meta);
             if (results.errors.length > 0) {
                 console.error('CSV parsing errors:', results.errors);
             }
             if (results.data && results.data.length > 0) {
                 console.log('Processing data...');
                 const data = processData(results.data);
-                drawChart(data.normalizedData, data.aggregateData);
+                if (data) {
+                    drawChart(data.normalizedData, data.aggregateData);
+                } else {
+                    console.error('Data processing failed. Unable to create chart.');
+                }
             } else {
                 console.error('No data parsed from CSV');
             }
@@ -37,6 +46,11 @@ function createChannelChart() {
 function processData(rawData) {
     console.log('Raw data:', rawData);
 
+    if (!validateCSVData(rawData)) {
+        console.error('CSV data validation failed. Aborting chart creation.');
+        return null;
+    }
+    
     const categories = ['My Way', 'Highway', 'Freeway'];
     const metrics = ['Channel', 'Capacity'];
     
@@ -76,6 +90,24 @@ function processData(rawData) {
     console.log('Normalized data:', normalizedData);
 
     return { normalizedData, aggregateData };
+}
+
+// function to validate CSV data
+function validateCSVData(data) {
+    const requiredFields = ['Channel_Size_Tier', 'Num_Channels', 'Channel_Percentage', 'Total_Capacity', 'Capacity_Percentage', 'Num_Unique_Nodes'];
+    const isValid = data.every(row => 
+        requiredFields.every(field => field in row && row[field] !== undefined && row[field] !== '')
+    );
+    if (!isValid) {
+        console.error('Invalid CSV data. Missing or empty required fields.');
+        data.forEach((row, index) => {
+            const missingFields = requiredFields.filter(field => !(field in row) || row[field] === undefined || row[field] === '');
+            if (missingFields.length > 0) {
+                console.error(`Row ${index + 1} is missing fields: ${missingFields.join(', ')}`);
+            }
+        });
+    }
+    return isValid;
 }
 
 // Function to draw the chart
