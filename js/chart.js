@@ -126,7 +126,7 @@ function drawChart(data, aggregateData) {
                 }
             }
         },
-        plugins: [ChartDataLabels] // Add this line to enable data labels
+        // plugins: [ChartDataLabels] // Add this line to enable data labels
     });
 }
 
