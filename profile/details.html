@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details Page</title>
+    <title>Node Details</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Details</h1>
-    <p id="details"></p>
+    <h1>Node Details</h1>
+    <div id="nodeDetails"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const column = urlParams.get('column');
-            const value = urlParams.get('value');
-
-            const detailsElement = document.getElementById('details');
-            detailsElement.textContent = `You clicked on the "${column}" column with the value "${value}".`;
-
-            // Here you can add more logic to fetch and display detailed information
-            // based on the column and value
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="details.js"></script>
 </body>
 </html>
