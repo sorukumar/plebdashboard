@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>PlebDashboard - Visualizing Lightning Network</title>
+
+    <!-- Critical CSS -->
+    <style>
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #main-content {
+            display: none;
+        }
+    </style>
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="../vendor/jquery/jquery.min.js" as="script">
+    <link rel="preload" href="../js/include.js" as="script">
+
+    <!-- Critical scripts -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../js/include.js"></script>
+    <script>
+        function loadCSS(href) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            document.head.appendChild(link);
+        }
+
+        function showContent() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+
+        function loadResources() {
+            loadCSS('../vendor/fontawesome-free/css/all.min.css');
+            loadCSS('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i');
+            loadCSS('../vendor/datatables/dataTables.bootstrap4.min.css');
+            loadCSS('https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.default.min.css');
+            loadCSS('../css/style.min.css');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            includeHTML(function() {
+                loadResources();
+                showContent();
+            });
+        });
+    </script>
+</head>
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <div include-html="includes/side-nav.html"></div>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+      <div include-html="includes/top-nav.html"></div>
+      <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Profile details</h1>
+        <div class="card-body">
+            <div id="nodeDetails"></div> 
+        </div>
+
+                <!-- /.container-fluid -->
+</div>
+
+      <div include-html="includes/footer.html"></div>
+            </div>
+        <!-- End of Content Wrapper -->
+
+      </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+  
+    <script src="../js/include.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="../js/profile_details.js"></script>
+</body>
+</html>
