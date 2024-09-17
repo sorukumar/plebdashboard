@@ -143,7 +143,7 @@
             Object.values(item).forEach(function(val, index) {
                 let cell = row.insertCell();
                 if (index === 11) {
-                    cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                    cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}">${val}</a>`;
                 } else {
                     cell.textContent = val;
                 }
@@ -158,7 +158,7 @@
             Object.values(item).forEach(function(val, index) {
                 let cell = row.insertCell();
                 if (index === 11) {
-                    cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                    cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}">${val}</a>`;
                 } else {
                     cell.textContent = val;
                 }
