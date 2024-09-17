@@ -137,35 +137,19 @@
     }
 
     function populateTable(data) {
-    const table = document.getElementById('infoTable');
-    const thead = table.getElementsByTagName('thead')[0];
-    const tbody = table.getElementsByTagName('tbody')[0];
-
-    // Assuming your table has a header row, let's get the column names
-    const columnNames = Array.from(thead.rows[0].cells).map(cell => cell.textContent);
-
-    // Clear existing rows
-    tbody.innerHTML = '';
-
-    data.forEach(function(item) {
-        let row = tbody.insertRow();
-        Object.values(item).forEach(function(val, index) {
-            let cell = row.insertCell();
-            if (index === 11) {
-                // Create a link only for the 12th column (index 11)
-                const columnName = columnNames[index] || 'Column 12';
-                const link = document.createElement('a');
-                link.href = `profile/details.html?column=${encodeURIComponent(columnName)}&value=${encodeURIComponent(val)}`;
-                link.target = '_blank';
-                link.textContent = val;
-                cell.appendChild(link);
-            } else {
-                // For all other columns, just set the text content
-                cell.textContent = val;
-            }
+        const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+        data.forEach(function(item) {
+            let row = table.insertRow();
+            Object.values(item).forEach(function(val, index) {
+                let cell = row.insertCell();
+                if (index === 11) {
+                    cell.innerHTML = `<a href="profile/details.html?pub_key=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                } else {
+                    cell.textContent = val;
+                }
+            });
         });
-    });
-  }
+    }
 
     function appendToTable(data) {
         const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
