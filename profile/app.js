@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let csvData = [];
 
   // Fetching and parsing CSV data
-  fetch('https://raw.githubusercontent.com/sorukumar/plebdashboard/site/data/node_profile.csv')
+  fetch('https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/node_profile.csv')
     .then(response => response.text())
     .then(data => {
       csvData = data.split('\n').map(row => {
