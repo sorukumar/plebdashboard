@@ -1,23 +1,27 @@
 // Function to create the fee rate chart
 function createFeeRateChart() {
-    fetch('data/FeeES.csv')
-        .then(response => response.text())
-        .then(csvText => {
-            const data = processFeeData(csvText);
+    Papa.parse('data/FeeES.csv', {
+        download: true,
+        header: true,
+        complete: function(results) {
+            const data = processFeeData(results.data);
             drawFeeRateChart(data);
-        })
-        .catch(error => console.error('Error loading the CSV file:', error));
+        },
+        error: function(error) {
+            console.error('Error loading the CSV file:', error);
+        }
+    });
 }
 
 // Function to process CSV data
-function processFeeData(csvText) {
-    const rows = csvText.split('\n').slice(1).map(row => row.split(','));
-    return rows.filter(row => row.length > 4).map(row => ({
-        Transaction_Size: row[0],
-        Capable_Channels: row[1],
-        Median_Fee_Rate: row[2],
-        Median_Base_Fee: row[3],
-        Effective_Fee_Rate_BPS: parseFloat(row[4])
+function processFeeData(data) {
+    // Filter out rows that don't have the required data
+    return data.filter(row => row.Transaction_Size && row.Effective_Fee_Rate_BPS).map(row => ({
+        Transaction_Size: row.Transaction_Size,
+        Capable_Channels: row.Capable_Channels,
+        Median_Fee_Rate: row.Median_Fee_Rate,
+        Median_Base_Fee: row.Median_Base_Fee,
+        Effective_Fee_Rate_BPS: parseFloat(row.Effective_Fee_Rate_BPS)
     }));
 }
 
@@ -35,7 +39,11 @@ function drawFeeRateChart(data) {
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 2,
-                fill: true
+                fill: true,
+                pointRadius: 6, // Increased dot size
+                pointHoverRadius: 8, // Increased hover dot size
+                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                pointBorderColor: 'rgba(75, 192, 192, 1)', // Ensure border color is set
             }]
         },
         options: {
@@ -44,13 +52,13 @@ function drawFeeRateChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            const data = context.raw;
+                            const item = data[context.dataIndex];
                             return [
                                 `Transaction Size: ${context.label}`,
-                                `Capable Channels: ${data.Capable_Channels}`,
-                                `Median Fee Rate: ${data.Median_Fee_Rate}`,
-                                `Median Base Fee: ${data.Median_Base_Fee}`,
-                                `Effective Fee Rate (BPS): ${data.Effective_Fee_Rate_BPS.toFixed(2)}`
+                                `Capable Channels: ${item.Capable_Channels}`,
+                                `Median Fee Rate: ${item.Median_Fee_Rate}`,
+                                `Median Base Fee: ${item.Median_Base_Fee}`,
+                                `Effective Fee Rate (BPS): ${item.Effective_Fee_Rate_BPS.toFixed(2)}`
                             ];
                         }
                     }
@@ -59,17 +67,20 @@ function drawFeeRateChart(data) {
                     display: false
                 },
                 datalabels: {
+                    display: true,
                     align: 'top',
                     anchor: 'end',
-                    formatter: (value, context) => {
-                        // Only show labels for every 5th point to avoid clutter
-                        return context.dataIndex % 5 === 0 ? value.toFixed(2) : null;
-                    },
+                    formatter: (value) => value.toFixed(2),
                     font: {
                         weight: 'bold',
-                        size: 10
+                        size: 12 // Increased font size for better readability
                     },
-                    color: 'rgba(75, 192, 192, 1)'
+                    color: 'rgba(75, 192, 192, 1)',
+                    padding: {
+                        top: 8 // Added padding to avoid overlap
+                    },
+                    clip: true, // Ensure labels are clipped within the chart area
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)' // Background color for better visibility
                 }
             },
             scales: {
@@ -77,14 +88,30 @@ function drawFeeRateChart(data) {
                     title: {
                         display: true,
                         text: 'Transaction Size'
-                    }
+                    },
+                    ticks: {
+                        autoSkip: false, // Ensure all x-axis labels are displayed
+                        padding: 10 // Add padding around x-axis labels
+                    },
+                    grid: {
+                        offset: true // Ensure that the grid lines don't overlap with labels
+                    },
+                    offset: true, // Add space on both sides of the x-axis
                 },
                 y: {
-                    display: false // Hide y-axis
+                    title: {
+                        display: true,
+                        text: 'Effective Fee Rate (BPS)'
+                    },
+                    min: 0, // Minimum value of the y-axis
+                    max: 8, // Maximum value of the y-axis
+                    ticks: {
+                        beginAtZero: true // Ensure y-axis starts at 0
+                    }
                 }
             }
         },
-        plugins: [ChartDataLabels] // Enable data labels
+        plugins: [ChartDataLabels]
     });
 }
 
