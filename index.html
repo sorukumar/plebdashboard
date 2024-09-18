@@ -25,8 +25,8 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-      <div>
-                  <!-- Sidebar -->
+        <div>
+                <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -62,9 +62,18 @@
                 <div id="node" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item text-wrap" href="pages/node1.html">Node Visualization</a>
-                        <a class="collapse-item text-wrap" href="pages/node2.html">Node2</a>
-                        <a class="collapse-item text-wrap" href="pages/NodeSegmentation.html">Node Segmentation</a>
+                        <a class="collapse-item text-wrap" href="pages/node1.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Node as Bubble, broken down by Capacity Percentile</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="pages/node2.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>All nodes in One Chart</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="pages/NodeSegmentation.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Node distribution by Capacity and # of Channels</span>
+                        </a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -78,8 +87,18 @@
                 <div id="channel" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item text-wrap" href="pages/channel1.html">Distribution of Nodes by Capacity</a>
-                        <a class="collapse-item text-wrap" href="pages/channel2.html">Distribution of Channels by fee rate</a>
+                        <a class="collapse-item text-wrap" href="pages/channel1.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Distribution of Channels by Capacity</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="pages/chnldistfeebucket.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Distribution of Channels by fee rate</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="pages/feeDistChnSize.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Fee Distribution by Channel size</span>
+                        </a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -93,7 +112,36 @@
                 <div id="lngraph" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item text-wrap " href="pages/LorenzCurve.html">Lorenz Curve</a>
+                        <a class="collapse-item text-wrap" href="pages/LorenzCurve.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Lorenz Curve</span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="pages/GraphVisualization.html">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Graph Visualization</span>
+                        </a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item active">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#rank" aria-expanded="true"
+                    aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Rank</span>
+                </a>
+                <div id="rank" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item text-wrap" href="pages/ranking.html">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>Centrality Rankings of all the nodes </span>
+                        </a>
+                        <a class="collapse-item text-wrap" href="pages/prank.html">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>PRank - A custom Pleb rank of the nodes</span>
+                        </a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -107,18 +155,14 @@
                 <div id="playground" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item text-wrap" href="pages/wip.html">WIP</a>
+                        <a class="collapse-item text-wrap" href="pages/wip.html">
+                            <i class="fas fa-fw fa-wrench"></i>
+                            <span>LN Dev Activity</span>
+                        </a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
             </li>
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="pages/ranking.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Rankings</span></a>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -129,8 +173,7 @@
 
         </ul>
         <!-- End of Sidebar -->
-      </div>
-
+        </div>
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column">
 
