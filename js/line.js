@@ -131,9 +131,6 @@ function drawNodeChart(data, tooltipData) {
                             return [
                                 `${context.dataset.label}: ${value > 15 ? value.toFixed(0) : value.toFixed(1)}%`,
                                 `Nodes: ${nodeData.Num_Nodes}`,
-                                `Node: ${nodeData.Node_Percentage}%`,
-                                `Capacity: ${nodeData.Capacity_Percentage}%`,
-                                `Channel: ${nodeData.Channel_Percentage}%`,
                                 `Lowest PRank: ${nodeData.Lowest_PRank}`,
                                 `Highest PRank: ${nodeData.Highest_PRank}`
                             ];

@@ -106,8 +106,6 @@ function drawChart(data, aggregateData) {
                             return [
                                 `${tooltipItem.dataset.label}: ${value > 20 ? value.toFixed(0) : value.toFixed(1)}%`,
                                 `Num Channels: ${extraInfo.Num_Channels || 'N/A'}`,
-                                `Channel Percentage: ${extraInfo.Channel_Percentage || 'N/A'}`,
-                                `Capacity Percentage: ${extraInfo.Capacity_Percentage || 'N/A'}`,
                                 `Unique Nodes: ${extraInfo.Num_Unique_Nodes || 'N/A'}`
                             ];
                         }

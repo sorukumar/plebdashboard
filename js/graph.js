@@ -54,11 +54,9 @@ function drawFeeRateChart(data) {
                         label: function(context) {
                             const item = data[context.dataIndex];
                             return [
-                                `Transaction Size: ${context.label}`,
                                 `Capable Channels: ${item.Capable_Channels}`,
                                 `Median Fee Rate: ${item.Median_Fee_Rate}`,
                                 `Median Base Fee: ${item.Median_Base_Fee}`,
-                                `Effective Fee Rate (BPS): ${item.Effective_Fee_Rate_BPS.toFixed(2)}`
                             ];
                         }
                     }
