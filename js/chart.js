@@ -105,8 +105,8 @@ function drawChart(data, aggregateData) {
 
                             return [
                                 `${tooltipItem.dataset.label}: ${value > 20 ? value.toFixed(0) : value.toFixed(1)}%`,
-                                `Num Channels: ${extraInfo.Num_Channels || 'N/A'}`,
-                                `Unique Nodes: ${extraInfo.Num_Unique_Nodes || 'N/A'}`
+                                `Num Channels: ${extraInfo.Num_Channels ? Number(extraInfo.Num_Channels).toLocaleString() : 'N/A'}`,
+                                `Unique Nodes: ${extraInfo.Num_Unique_Nodes ? Number(extraInfo.Num_Unique_Nodes).toLocaleString() : 'N/A'}`,
                             ];
                         }
                     }
