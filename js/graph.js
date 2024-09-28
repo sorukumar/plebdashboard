@@ -50,7 +50,11 @@ function drawFeeRateChart(data) {
             responsive: true,
             plugins: {
                 tooltip: {
+                    
                     callbacks: {
+                        
+                        
+
                         label: function(context) {
                             const item = data[context.dataIndex];
                             return [
