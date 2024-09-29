@@ -58,9 +58,9 @@ function drawFeeRateChart(data) {
                         label: function(context) {
                             const item = data[context.dataIndex];
                             return [
-                                `Capable Channels: ${item.Capable_Channels}`,
-                                `Median Fee Rate: ${!isNaN(Number(item.Median_Fee_Rate)) ? (Number(item.Median_Fee_Rate) >= 1 ? Number(item.Median_Fee_Rate).toFixed(0) : Number(item.Median_Fee_Rate).toFixed(1)) : 'N/A'}`,
-                                `Median Base Fee: ${!isNaN(Number(item.Median_Base_Fee)) ? (Number(item.Median_Base_Fee) >= 1 ? Number(item.Median_Base_Fee).toFixed(0) : Number(item.Median_Base_Fee).toFixed(1)) : 'N/A'}`
+                                `Capable Channels: ${Number(item.Capable_Channels).toLocaleString()}`, // Adds commas to large numbers
+                        `Median Fee Rate: ${!isNaN(Number(item.Median_Fee_Rate)) ? (Number(item.Median_Fee_Rate) >= 1 ? Number(item.Median_Fee_Rate).toFixed(0) : Number(item.Median_Fee_Rate).toFixed(1)) : 'N/A'}`,
+                        `Median Base Fee: ${!isNaN(Number(item.Median_Base_Fee)) ? (Number(item.Median_Base_Fee) >= 1 ? Number(item.Median_Base_Fee).toFixed(0) : Number(item.Median_Base_Fee).toFixed(1)) : 'N/A'}`
 
 
                             ];
