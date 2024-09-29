@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Retrieve the pub_key from the URL query parameter
     const urlParams = new URLSearchParams(window.location.search);
     const pubKey = urlParams.get('pub_key');
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(csvData => {
             Papa.parse(csvData, {
                 header: true, // CSV has a header row
-                complete: function(results) {
+                complete: function (results) {
                     // Find the node matching the provided pub_key
                     const node = results.data.find(row => row.pub_key === pubKey);
                     if (node) {
@@ -32,10 +32,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 });
 
-// Function to display the node details in a table
+// Function to display the node details in cards and a table
 function displayNodeDetails(node) {
+    // Cards section
     let html = `
     <div class="row mb-4">
+        <!-- Alias Card -->
+        <div class="col-md-6 mb-3">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Alias</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">${node.alias || 'N/A'}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Node Key Card -->
         <div class="col-md-6 mb-3">
             <div class="card shadow h-100 py-2">
                 <div class="card-body">
@@ -44,25 +56,20 @@ function displayNodeDetails(node) {
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-3">
-            <div class="card shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Channels</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">${node.Total_Channels || 'N/A'}</div>
-                </div>
-            </div>
-        </div>
     </div>
     
     <div class="row mb-4">
+        <!-- Powerhouse Card -->
         <div class="col-md-6 mb-3">
             <div class="card shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Capacity</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">${node.Formatted_Total_Capacity || 'N/A'}</div>
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Powerhouse</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">${node.Powerhouse || 'N/A'}</div>
                 </div>
             </div>
         </div>
+
+        <!-- Node Capacity Tier Card -->
         <div class="col-md-6 mb-3">
             <div class="card shadow h-100 py-2">
                 <div class="card-body">
@@ -72,7 +79,31 @@ function displayNodeDetails(node) {
             </div>
         </div>
     </div>
+    
+    <div class="row mb-4">
+        <!-- Capacity Percentile Card -->
+        <div class="col-md-6 mb-3">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Capacity Percentile</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">${node.Capacity_Percentile || 'N/A'}</div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Node Type Card -->
+        <div class="col-md-6 mb-3">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Node Type</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">${node.Node_Type || 'N/A'}</div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    // Table section
+    html += `
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -89,5 +120,6 @@ function displayNodeDetails(node) {
     }
 
     html += `</tbody></table></div>`;
+
     document.getElementById('nodeDetails').innerHTML = html;
 }
