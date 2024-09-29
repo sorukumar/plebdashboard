@@ -145,7 +145,11 @@
             let row = table.insertRow();
             Object.values(item).forEach(function(val, index) {
                 let cell = row.insertCell();
-                if (index === 11) {
+
+                if(index ===10){
+                    cell.textContent = Math.round(val);
+                }
+                else if (index === 11) {
                     cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}">${val}</a>`;
                 } else {
                     cell.textContent = val;
@@ -160,7 +164,10 @@
             let row = table.insertRow();
             Object.values(item).forEach(function(val, index) {
                 let cell = row.insertCell();
-                if (index === 11) {
+                if(index ===10){
+                    cell.textContent = Math.round(val);
+                }
+                else if (index === 11) {
                     cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}">${val}</a>`;
                 } else {
                     cell.textContent = val;
