@@ -50,15 +50,19 @@ function drawFeeRateChart(data) {
             responsive: true,
             plugins: {
                 tooltip: {
+                    
                     callbacks: {
+                        
+                        
+
                         label: function(context) {
                             const item = data[context.dataIndex];
                             return [
-                                `Transaction Size: ${context.label}`,
-                                `Capable Channels: ${item.Capable_Channels}`,
-                                `Median Fee Rate: ${item.Median_Fee_Rate}`,
-                                `Median Base Fee: ${item.Median_Base_Fee}`,
-                                `Effective Fee Rate (BPS): ${item.Effective_Fee_Rate_BPS.toFixed(2)}`
+                                `Capable Channels: ${Number(item.Capable_Channels).toLocaleString()}`, // Adds commas to large numbers
+                        `Median Fee Rate: ${!isNaN(Number(item.Median_Fee_Rate)) ? (Number(item.Median_Fee_Rate) >= 1 ? Number(item.Median_Fee_Rate).toFixed(0) : Number(item.Median_Fee_Rate).toFixed(1)) : 'N/A'}`,
+                        `Median Base Fee: ${!isNaN(Number(item.Median_Base_Fee)) ? (Number(item.Median_Base_Fee) >= 1 ? Number(item.Median_Base_Fee).toFixed(0) : Number(item.Median_Base_Fee).toFixed(1)) : 'N/A'}`
+
+
                             ];
                         }
                     }

@@ -21,10 +21,25 @@ function fetchCSVData() {
 
 // Function to display the data in the cards
 function populateCards(data) {
-    document.getElementById('1').textContent = data.Unique_Nodes || 'N/A';
-    document.getElementById('2').textContent = data.Total_Capacity || 'N/A';
-    document.getElementById('3').textContent = data.Unique_Edges || 'N/A';
-    document.getElementById('4').textContent = data.Effective_Fee_Rate_BPS || 'N/A';
+    document.getElementById('1').textContent = formatNumber(data.Unique_Nodes);
+    document.getElementById('2').textContent = formatNumber(data.Total_Capacity);
+    document.getElementById('3').textContent = formatNumber(data.Unique_Edges);
+    document.getElementById('4').textContent = formatNumber(data.Effective_Fee_Rate_BPS);
+}
+
+// Helper function to format numbers with commas, even with text like 'bitcoin'
+function formatNumber(value) {
+    if (!value) return 'N/A';
+
+    // Extract the numeric part from the string and format it
+    const numberPart = parseFloat(value.replace(/,/g, '')); // Remove commas before parsing
+    const textPart = value.replace(/[0-9,.]/g, '').trim(); // Extract non-numeric text like 'bitcoin'
+
+    // Format the number part with commas
+    const formattedNumber = !isNaN(numberPart) ? numberPart.toLocaleString() : value;
+
+    // Return the formatted number with the text part if any
+    return textPart ? `${formattedNumber} ${textPart}` : formattedNumber;
 }
 
 // Call the function to fetch and display the data when the page loads

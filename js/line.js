@@ -129,14 +129,11 @@ function drawNodeChart(data, tooltipData) {
                             const value = context.raw;
                             const nodeData = tooltipData[category];
                             return [
-                                `${context.dataset.label}: ${value > 15 ? value.toFixed(0) : value.toFixed(1)}%`,
-                                `Nodes: ${nodeData.Num_Nodes}`,
-                                `Node: ${nodeData.Node_Percentage}%`,
-                                `Capacity: ${nodeData.Capacity_Percentage}%`,
-                                `Channel: ${nodeData.Channel_Percentage}%`,
-                                `Lowest PRank: ${nodeData.Lowest_PRank}`,
-                                `Highest PRank: ${nodeData.Highest_PRank}`
-                            ];
+                                `${context.dataset.label}: ${value > 15 ? value.toFixed(0) : value.toFixed(1)}%`,                               
+                                `Nodes: ${nodeData.Num_Nodes ? Number(nodeData.Num_Nodes).toLocaleString() : 'N/A'}`,
+                                `Lowest PRank: ${nodeData.Lowest_PRank ? Number(nodeData.Lowest_PRank).toLocaleString() : 'N/A'}`,
+                                `Highest PRank: ${nodeData.Highest_PRank ? Number(nodeData.Highest_PRank).toLocaleString() : 'N/A'}`,
+                                ];
                         }
                     }
                 },
