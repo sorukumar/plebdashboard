@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (node) {
                         displayNodeDetails(node); 
                         displayChannelTable(node);  // Add the channel table
+                        displayChannelSizeTable(node);  // Add the Channel Size table
+                        displayBaseFeeTable(node);  // Add the Base Fee table
                     } else {
                         document.getElementById('nodeDetails').innerHTML = '<p>Node not found.</p>';
                     }
@@ -31,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to display node details (Alias, Pub Key, Node Type, etc.)
 function displayNodeDetails(node) {
+    // Log the node object to check its structure
+    console.log('Node Object:', node);
+
     let html = `
     <div class="row mb-4">
         <div class="col-md-6 mb-3">
@@ -56,35 +61,72 @@ function displayNodeDetails(node) {
                 </div>
             </div>
         </div>
-    </div>`;
-
-    // Add First Seen card
-    let firstSeen = '';
-    try {
-        const blockTxOutput = JSON.parse(node.block_tx_output);
-        firstSeen = blockTxOutput.block ? blockTxOutput.block : 'N/A';
-    } catch (error) {
-        console.error('Error parsing block_tx_output:', error);
-    }
-
-    html += `
+    </div>
+    
     <div class="row mb-4">
         <div class="col-md-12 mb-3">
             <div class="card shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">First Seen (Block)</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">${firstSeen}</div>
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">First Seen</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">`;
+
+    // Parse block_tx_output if it exists
+    let blockTxOutput;
+    if (node.block_tx_output) {
+        try {
+            blockTxOutput = JSON.parse(node.block_tx_output);
+            const block = blockTxOutput.block || 'N/A';
+            const tx = blockTxOutput.tx || 'N/A';
+            html += `Block: ${block}, Tx: ${tx}`;
+        } catch (error) {
+            console.error('Error parsing block_tx_output:', error);
+            html += 'Block: N/A, Tx: N/A';
+        }
+    } else {
+        html += 'Block: N/A, Tx: N/A';
+    }
+
+    html += `</div>
                 </div>
             </div>
         </div>
-    </div>`;
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12 mb-3">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Rank</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Pleb Rank: ${node.Pleb_Rank || 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Capacity Rank: ${node.Total_Capacity_Rank || 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Channel Rank: ${node.Total_Channels_Rank || 'N/A'}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Centrality Ranks Card -->
+    <div class="row mb-4">
+        <div class="col-md-12 mb-3">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Centrality Ranks</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Betweenness Centrality Rank: ${node.Betweenness_Centrality_Rank || 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Eigenvector Centrality Rank: ${node.Eigenvector_Centrality_Rank || 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Capacity Weighted Degree Rank: ${node.Capacity_Weighted_Degree_Rank || 'N/A'}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
 
     document.getElementById('nodeDetails').innerHTML = html;
 }
 
+
+
 // Function to display the Channels table (My Way, Highway, Freeway)
 function displayChannelTable(node) {
-    // Parse the Category_Counts field as it is stored as a JSON string
     let categoryCounts = {};
     try {
         categoryCounts = JSON.parse(node.Category_Counts);
@@ -92,7 +134,6 @@ function displayChannelTable(node) {
         console.error('Error parsing Category_Counts:', error);
     }
 
-    // Create the table HTML
     let html = `
     <div class="table-responsive mt-4">
         <table class="table table-bordered">
@@ -119,6 +160,77 @@ function displayChannelTable(node) {
         </table>
     </div>`;
 
-    // Append the table to the nodeDetails div
+    document.getElementById('nodeDetails').innerHTML += html;
+}
+
+// Function to display the Channel Size table
+function displayChannelSizeTable(node) {
+    let html = `
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Channel Size Type</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Average Channel Size</td>
+                    <td>${node.Avg_Channel_Size || 'N/A'}</td>
+                </tr>
+                <tr>
+                    <td>Max Channel Size</td>
+                    <td>${node.Max_Channel_Size || 'N/A'}</td>
+                </tr>
+                <tr>
+                    <td>Median Channel Size</td>
+                    <td>${node.Median_Channel_Size || 'N/A'}</td>
+                </tr>
+                <tr>
+                    <td>Min Channel Size</td>
+                    <td>${node.Min_Channel_Size || 'N/A'}</td>
+                </tr>
+                <tr>
+                    <td>Mode Channel Size</td>
+                    <td>${node.Mode_Channel_Size || 'N/A'}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>`;
+
+    document.getElementById('nodeDetails').innerHTML += html;
+}
+
+// Function to display the Base Fee table
+function displayBaseFeeTable(node) {
+    let html = `
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Base Fee Type</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for (const key in node) {
+        if (key.endsWith('Base_Fee')) {
+            html += `
+                <tr>
+                    <td>${key}</td>
+                    <td>${node[key] || 'N/A'}</td>
+                </tr>
+            `;
+        }
+    }
+
+    html += `
+            </tbody>
+        </table>
+    </div>`;
+
     document.getElementById('nodeDetails').innerHTML += html;
 }
