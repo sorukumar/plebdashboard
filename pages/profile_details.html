@@ -4,59 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <title>PlebDashboard - Visualizing Lightning Network</title>
 
     <!-- Critical CSS -->
     <style>
-        #loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #f0f4f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        #content {
-            display: none;
-        }
-        .card {
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        .card-header {
-            background-color: #6c757d;
-            color: #fff;
-            font-weight: bold;
-        }
-        .card-body {
-            background-color: #ffffff;
-        }
-        .table {
-            background-color: #ffffff;
-        }
-        .table th {
-            background-color: #e9ecef;
-            color: #495057;
-        }
-        .table tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-        body {
-            background-color: #f8f9fa;
-        }
-        h1 {
-            color: #343a40;
-        }
-        .scroll-to-top {
-            background-color: #007bff;
-            color: white;
-        }
+        /* Your existing CSS */
     </style>
 
     <!-- Preload critical resources -->
@@ -107,9 +59,9 @@
                 <div include-html="includes/top-nav.html"></div>
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4">Profile Details </h1>
+                    <h1 class="h3 mb-4">Profile Details</h1>
                     <div class="card-body">
-                        <div id="nodeDetails"></div> 
+                        <div id="nodeDetails"></div>
                     </div>
                 </div>
                 <div include-html="includes/footer.html"></div>
@@ -131,9 +83,11 @@
         <!-- Core plugin JavaScript-->
         <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
+        <!-- PapaParse library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+        
         <!-- Custom scripts for all pages-->
         <script src="../js/sb-admin-2.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-        <script src="../js/profile_details.js"></script>
+        <script src="../js/profile_details.js"></script> <!-- Make sure this is last -->
     </body>
 </html>

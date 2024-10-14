@@ -151,7 +151,7 @@
 
     function appendToTable(data) {
         const table = document.getElementById("infoTable").getElementsByTagName("tbody")[0];
-        data.forEach(function (item) {
+        data.forEach(function (item) {  
             let row = table.insertRow();
             row.insertCell().textContent = rankCounter++; // Continue incrementing the rank
             Object.values(item).forEach(function (val, index) {
