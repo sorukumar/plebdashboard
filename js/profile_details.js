@@ -234,3 +234,4 @@ function displayBaseFeeTable(node) {
 
     document.getElementById('nodeDetails').innerHTML += html;
 }
+

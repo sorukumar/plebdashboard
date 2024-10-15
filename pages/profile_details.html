@@ -90,4 +90,104 @@
         <script src="../js/sb-admin-2.min.js"></script>
         <script src="../js/profile_details.js"></script> <!-- Make sure this is last -->
     </body>
+
+
+   <style>
+    /* Custom Subtle Fancy Styles */
+    body {
+        background-color: #f4f6f9;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    /* General card styles with different subtle shades */
+    .card {
+        border-radius: 15px;
+        background: linear-gradient(145deg, #ffffff, #e6e9ee);
+        box-shadow: 5px 5px 15px #c6c9cc, -5px -5px 15px #ffffff;
+        transition: box-shadow 0.3s ease;
+    }
+
+    /* Card Color Variations */
+    .card-primary {
+        background-color: #e8f1ff; /* Light blue */
+    }
+
+    .card-secondary {
+        background-color: #f9f0e3; /* Light orange */
+    }
+
+    .card-tertiary {
+        background-color: #f0f7e6; /* Light green */
+    }
+
+    .card-quaternary {
+        background-color: #f7e6f0; /* Light pink */
+    }
+
+    .text-primary {
+        color: #4e73df !important;
+    }
+
+    .h5 {
+        color: #1a1a1a;
+    }
+
+    /* Table styles */
+    .table {
+        background-color: #ffffff;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+    }
+
+    .table-bordered thead th {
+        background-color: #4e73df;
+        color: white;
+        font-size: 14px;
+    }
+
+    .table-bordered tbody tr {
+        background: linear-gradient(145deg, #ffffff, #e6e9ee);
+        box-shadow: 3px 3px 10px #d1d4d8, -3px -3px 10px #ffffff;
+    }
+
+    .table-bordered td,
+    .table-bordered th {
+        padding: 12px;
+        border: none;
+        font-size: 14px;
+    }
+
+    .table td {
+        color: #4e5d6c;
+        font-weight: 500;
+    }
+
+    .scroll-to-top {
+        background-color: #4e73df;
+        color: white;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Subtle hover effects */
+    .card:hover, .table-bordered tbody tr:hover {
+        box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-to-top:hover {
+        background-color: #3751a6;
+    }
+
+    /* Loading screen */
+    #loading {
+        background-color: #4e73df;
+        color: white;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+</style>
+
+    
 </html>
