@@ -129,15 +129,17 @@
     }
 
     function loadRemainingData() {
-        Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/node_rank.csv", {
-            download: true,
-            header: true,
-            skipFirstNLines: 100, // Skip the first 100 records we've already loaded
-            complete: function(results) {
-                appendToTable(results.data);
-            }
-        });
-    }
+    Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/node_rank.csv", {
+        download: true,
+        header: true,
+        skipEmptyLines: true,  // Skip empty lines if any
+        complete: function(results) {
+            const remainingData = results.data.slice(100);  // Slice to get only entries after the first 100
+            appendToTable(remainingData);
+        }
+    });
+}
+
 
     function populateTable(data) {
         const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];

@@ -114,7 +114,7 @@
         Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
             download: true,
             header: true,
-            preview: 100, // Load only first 100 records
+            // preview: 100, // Load only first 100 records
             complete: function (results) {
                 populateTable(results.data);
                 $("#infoTable").tablesorter();
@@ -122,22 +122,22 @@
         });
     }
 
-    function loadRemainingData() {
-        Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
-            download: true,
-            header: true,
-            skipFirstNLines: 100, // Skip the first 100 records we've already loaded
-            complete: function (results) {
-                appendToTable(results.data);
-            }
-        });
-    }
+    // function loadRemainingData() {
+    //     Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
+    //         download: true,
+    //         header: true,
+    //         skipFirstNLines: 100, // Skip the first 100 records we've already loaded
+    //         complete: function (results) {
+    //             appendToTable(results.data);
+    //         }
+    //     });
+    // }
 
     function populateTable(data) {
         const table = document.getElementById("infoTable").getElementsByTagName("tbody")[0];
         data.forEach(function (item) {
             let row = table.insertRow();
-            row.insertCell().textContent = rankCounter++; // Incrementing the pleb rank without repetition
+            // row.insertCell().textContent = rankCounter++; // Incrementing the pleb rank without repetition
             Object.values(item).forEach(function (val, index) {
                 let cell = row.insertCell();
                 if (index === 11) {
@@ -151,7 +151,7 @@
 
     function appendToTable(data) {
         const table = document.getElementById("infoTable").getElementsByTagName("tbody")[0];
-        data.forEach(function (item) {
+        data.forEach(function (item) {  
             let row = table.insertRow();
             row.insertCell().textContent = rankCounter++; // Continue incrementing the rank
             Object.values(item).forEach(function (val, index) {
