@@ -31,10 +31,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
+
+function generateQRCode(text) {
+    // Clear previous QR code (if any)
+    document.getElementById('qrcode').innerHTML = "";
+
+    // Create new QR code
+    new QRCode(document.getElementById("qrcode"), {
+        text: text,
+        width: 90,
+        height: 90
+    });
+}
+
+
+
 // Function to display node details (Alias, Pub Key, Node Type, etc.)
 function displayNodeDetails(node) {
     // Log the node object to check its structure
     console.log('Node Object:', node);
+
+    // Store the pub_key in a temporary variable
+    const pubKey = node.pub_key;
 
     let html = `
     <div class="row mb-4">
@@ -44,7 +62,11 @@ function displayNodeDetails(node) {
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Alias</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">${node.alias || 'N/A'}</div>
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 mt-3">Pub Key</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">${node.pub_key ? node.pub_key.slice(0, 4) + '...' : 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">${node.pub_key ? node.pub_key.slice(0, 4) + '...' + node.pub_key.slice(-4): 'N/A'}</div>
+                    <div>
+                        <button onClick="generateQRCode('${pubKey}')">QR Code 😶‍🌫️</button>
+                        <div class="mt-2 ml-2" id="qrcode"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,6 +144,7 @@ function displayNodeDetails(node) {
 
     document.getElementById('nodeDetails').innerHTML = html;
 }
+
 
 
 
