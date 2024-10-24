@@ -65,13 +65,10 @@ function displayNodeDetails(node) {
     const pubKey = node.pub_key;
 
     let html = `
-    <div class="row mb-4">
-        <div class="col-md-6 mb-3">
-            <div class="card shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Alias</div>
+    <div class="row d-flex justify-content-around mb-4">
+        <div class="col-md-4 mb-3">
+                <div class=" align-items-center">
                     <div class="h5 mb-0 font-weight-bold text-gray-800">${node.alias || 'N/A'}</div>
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 mt-3">Pub Key</div>
                     <div class="row align-items-center ">
                     <div class="h5 mb-0 font-weight-bold text-gray-800">${node.pub_key ? node.pub_key.slice(0, 4) + '...' + node.pub_key.slice(-4): 'N/A'}</div>
                     <svg xmlns="http://www.w3.org/2000/svg" onClick="generateQRCode('${pubKey}')" class="ml-1 " width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12v3M12 3v3m6 6v3m-6 3h9m-3 3h3M6 12h3M6 6.011L6.01 6M12 12.011l.01-.011M3 12.011L3.01 12M12 9.011L12.01 9M12 15.011l.01-.011M15 21.011l.01-.011m-3.01.011l.01-.011M21 12.011l.01-.011M21 15.011l.01-.011M18 6.011L18.01 6M9 3.6v4.8a.6.6 0 0 1-.6.6H3.6a.6.6 0 0 1-.6-.6V3.6a.6.6 0 0 1 .6-.6h4.8a.6.6 0 0 1 .6.6m12 0v4.8a.6.6 0 0 1-.6.6h-4.8a.6.6 0 0 1-.6-.6V3.6a.6.6 0 0 1 .6-.6h4.8a.6.6 0 0 1 .6.6M6 18.011L6.01 18M9 15.6v4.8a.6.6 0 0 1-.6.6H3.6a.6.6 0 0 1-.6-.6v-4.8a.6.6 0 0 1 .6-.6h4.8a.6.6 0 0 1 .6.6"/></svg>
@@ -79,26 +76,44 @@ function displayNodeDetails(node) {
                     </div>
                     <div class="mt-2 ml-2" id="qrcode"></div>
                 </div>
-            </div>
+            
         </div>
 
-        <div class="col-md-6 mb-3">
+        <div class="col-md-7 mb-3">
             <div class="card shadow h-100 py-2">
-                <div class="card-body">
+                <div class="card-body row">
+                <div class="ml-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Node Type</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">${node.Node_Type || 'N/A'}</div>
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 mt-3">Node Capacity Tier</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">${node.Node_Cap_Tier || 'N/A'}</div>
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 mt-3">Capacity Percentile</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">${node.Capacity_Percentile || 'N/A'}</div>
+                 </div>
+                    <div class="ml-4">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Rank</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Pleb Rank: ${node.Pleb_Rank || 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Capacity Rank: ${node.Total_Capacity_Rank || 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Channel Rank: ${node.Total_Channels_Rank || 'N/A'}</div>
                 </div>
+
+                 <div class="ml-4">
+                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Centrality Ranks</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Betweenness Centrality Rank: ${node.Betweenness_Centrality_Rank || 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Eigenvector Centrality Rank: ${node.Eigenvector_Centrality_Rank || 'N/A'}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">Capacity Weighted Degree Rank: ${node.Capacity_Weighted_Degree_Rank || 'N/A'}</div>
+                </div>
+
+                
+                
+                    </div>
             </div>
         </div>
     </div>
     
-    <div class="row mb-4">
-        <div class="col-md-12 mb-3">
-            <div class="card shadow h-100 py-2">
+    <div class="row ">
+        <div class="col-md-3 ">
+            <div class="card shadow h-100 ">
                 <div class="card-body">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">First Seen</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">`;
@@ -123,34 +138,12 @@ function displayNodeDetails(node) {
                 </div>
             </div>
         </div>
+
     </div>
 
-    <div class="row mb-4">
-        <div class="col-md-12 mb-3">
-            <div class="card shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Rank</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">Pleb Rank: ${node.Pleb_Rank || 'N/A'}</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">Capacity Rank: ${node.Total_Capacity_Rank || 'N/A'}</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">Channel Rank: ${node.Total_Channels_Rank || 'N/A'}</div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
-    <!-- Centrality Ranks Card -->
-    <div class="row mb-4">
-        <div class="col-md-12 mb-3">
-            <div class="card shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Centrality Ranks</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">Betweenness Centrality Rank: ${node.Betweenness_Centrality_Rank || 'N/A'}</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">Eigenvector Centrality Rank: ${node.Eigenvector_Centrality_Rank || 'N/A'}</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">Capacity Weighted Degree Rank: ${node.Capacity_Weighted_Degree_Rank || 'N/A'}</div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     `;
 
     document.getElementById('nodeDetails').innerHTML = html;
