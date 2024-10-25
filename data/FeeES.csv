@@ -1,8 +1,8 @@
 Transaction_Size,Capable_Channels,Median_Fee_Rate,Median_Base_Fee,Effective_Fee_Rate_BPS
-10k sats,47592,88.0,1000.0,1.88
-100k sats,42812,100.0,1000.0,1.1
-1.0m sats,30177,179.0,320.0,1.79
-10.0m sats,7162,500.0,500.0,5.0
-1.0 bitcoin,707,500.0,174.5,5.0
+10k sats,46970,80.0,1000.0,1.8
+100k sats,42487,100.0,1000.0,1.1
+1.0m sats,29890,175.0,500.0,1.76
+10.0m sats,7103,500.0,900.0,5.0
+1.0 bitcoin,717,500.0,1000.0,5.0
 5.0 bitcoin,8,5.0,1000.0,0.05
 8.0 bitcoin,2,500.0,1000.0,5.0
