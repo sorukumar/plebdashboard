@@ -1,4 +1,4 @@
 Node_Cap_Tier,Num_Nodes,Node_Percentage,Capacity_Percentage,Channel_Percentage,Lowest_PRank,Highest_PRank
-Powerhouses,230,0.018,0.816,0.414,1,5248
-Pillars,2540,0.2,0.168,0.389,75,7611
-Plebs,9941,0.782,0.016,0.198,801,12711
+Powerhouses,225,0.019,0.822,0.417,1,5040
+Pillars,2502,0.208,0.163,0.39,75,7393
+Plebs,9314,0.774,0.015,0.193,957,12041
