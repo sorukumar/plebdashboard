@@ -111,37 +111,40 @@ function displayNodeDetails(node) {
         </div>
     </div>
     
-    <div class="row ">
-        <div class="col-md-3 ">
-            <div class="card shadow h-100 ">
-                <div class="card-body">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">First Seen</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">`;
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow h-100">
+            <div class="card-body">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">First Seen</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    `;
 
-    // Parse block_tx_output if it exists
-    let blockTxOutput;
-    if (node.block_tx_output) {
-        try {
-            blockTxOutput = JSON.parse(node.block_tx_output);
-            const block = blockTxOutput.block || 'N/A';
-            const tx = blockTxOutput.tx || 'N/A';
-            html += `Block: ${block}, Tx: ${tx}`;
-        } catch (error) {
-            console.error('Error parsing block_tx_output:', error);
-            html += 'Block: N/A, Tx: N/A';
-        }
+    // Check if birth_tx exists and is an object
+    let birthTx = node.birth_tx ? JSON.parse(node.birth_tx) : null;
+    let birthChan = node.birth_chan || 'N/A';
+
+    if (birthTx) {
+        // Extract block, tx, and output from birth_tx
+        const block = birthTx.block || 'N/A';
+        const tx = birthTx.tx || 'N/A';
+        const output = birthTx.output || 'N/A';
+        html += `Transaction: Block ${block}, Tx ${tx}, Output ${output}`;
     } else {
-        html += 'Block: N/A, Tx: N/A';
+        html += 'Transaction: N/A';
+    }
+
+    // Make Channel a clickable link if it exists
+    if (birthChan !== 'N/A') {
+        html += `, Channel: <a href="https://mempool.space/lightning/channel/${birthChan}" target="_blank">${birthChan}</a>`;
+    } else {
+        html += ', Channel: N/A';
     }
 
     html += `</div>
-                </div>
             </div>
         </div>
-
     </div>
-
-   
+</div>
 
    
     `;
