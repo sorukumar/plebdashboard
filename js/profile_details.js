@@ -112,7 +112,7 @@ function displayNodeDetails(node) {
     </div>
     
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="card shadow h-100">
             <div class="card-body">
                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">First Seen</div>
