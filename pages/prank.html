@@ -3,49 +3,49 @@
 <body onload="includeHTML()">
   <div include-html="includes/header.html"></div>
 
-<body id="page-top">
+  <body id="page-top">
     <div id="wrapper">
-        <div include-html="includes/side-nav.html"></div>
-        
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <div include-html="includes/top-nav.html"></div>
-                
-                <div class="container-fluid">
-                    <h1 class="h3 mb-2 text-gray-800">Prank, Pleb Ranking, a sophisticated method to rank nodes</h1>
-                    <p class="mb-4">PRank is a custom node ranking method. We look at weighted centrality measures to rank nodes. To learn about centrality read <a target="_blank" href="https://sorukumar.github.io/blog/lightning/technical/2024/04/12/Centrality-Measures-Lightning-Network.html">Centrality Measure</a>.</p>
+      <div include-html="includes/side-nav.html"></div>
+      
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <div include-html="includes/top-nav.html"></div>
+          
+          <div class="container-fluid">
+            <h1 class="h3 mb-2 text-gray-800">Prank, Pleb Ranking, a sophisticated method to rank nodes</h1>
+            <p class="mb-4">PRank is a custom node ranking method. We look at weighted centrality measures to rank nodes. To learn about centrality read <a target="_blank" href="https://sorukumar.github.io/blog/lightning/technical/2024/04/12/Centrality-Measures-Lightning-Network.html">Centrality Measure</a>.</p>
 
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for nodes...">
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="infoTable" class="tablesorter">
-                                    <thead>
-                                        <tr>
-                                            <th>Pleb Rank</th>
-                                            <th>Channels Rank</th>
-                                            <th>Capacity Rank</th>
-                                            <th>Alias/Pub key</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <input type="text" id="filterInput" placeholder="Search for Alias/Pubkey...">
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="infoTable" class="tablesorter">
+                    <thead>
+                      <tr>
+                        <th>Pleb Rank</th>
+                        <th>Channels Rank</th>
+                        <th>Capacity Rank</th>
+                        <th>Alias/Pub key</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
                 </div>
+              </div>
             </div>
-
-            <div include-html="includes/footer.html"></div>
+          </div>
         </div>
+
+        <div include-html="includes/footer.html"></div>
+      </div>
     </div>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
+      <i class="fas fa-angle-up"></i>
     </a>
 
     <!-- Bootstrap core JavaScript-->
@@ -62,129 +62,105 @@
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="../js/demo/datatables-demo.js"></script>
-
     <!-- Additional required scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 
     <script>
     document.addEventListener("DOMContentLoaded", function () {
-    let rankCounter = 1; // Initialize the rank counter
+      let rankCounter = 1; // Initialize the rank counter
 
-    // Step 1: Include HTML components (sidebar and navbar)
-    includeHTML(function () {
-        // Step 2: Load initial content and first 100 records
-        loadInitialContent();
+      // Step 1: Include HTML components (sidebar and navbar)
+      includeHTML(function () {
+          // Step 2: Load initial content and first 100 records
+          loadInitialContent();
+      });
 
-        // Step 3: Load remaining data in the background
-        loadRemainingData();
+      function includeHTML(callback) {
+          var z, i, elmnt, file, xhttp;
+          z = document.getElementsByTagName("*");
+          for (i = 0; i < z.length; i++) {
+              elmnt = z[i];
+              file = elmnt.getAttribute("include-html");
+              if (file) {
+                  xhttp = new XMLHttpRequest();
+                  xhttp.onreadystatechange = function () {
+                      if (this.readyState == 4) {
+                          if (this.status == 200) {
+                              elmnt.innerHTML = this.responseText;
+                          }
+                          if (this.status == 404) {
+                              elmnt.innerHTML = "Page not found.";
+                          }
+                          elmnt.removeAttribute("include-html");
+                          includeHTML(callback);
+                      }
+                  };
+                  xhttp.open("GET", file, true);
+                  xhttp.send();
+                  return;
+              }
+          }
+          if (callback) callback();
+      }
+
+      function loadInitialContent() {
+          Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
+              download: true,
+              header: true,
+              complete: function (results) {
+                  populateTable(results.data);
+                  console.log(results.data);
+                  
+                  $("#infoTable").tablesorter();
+
+                  // Enable filtering once data is loaded
+                  document.getElementById("filterInput").addEventListener("keyup", filterTable);
+              }
+          });
+      }
+
+      function populateTable(data) {
+        
+        
+          const table = document.getElementById("infoTable").getElementsByTagName("tbody")[0];
+          data.forEach(function (item) {
+              let row = table.insertRow();
+              
+            //   row.insertCell().textContent = rankCounter++; // Incrementing the pleb rank without repetition
+              Object.values(item).forEach(function (val, index) {
+                  let cell = row.insertCell();
+                  if (index === 3) { // Assuming the alias/pub key is the fourth column
+                    //   cell.innerHTML = `<a href="profile_details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+                      cell.innerHTML = `<a href="profile_details.html?pubkey=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
+
+                  } else {
+                      cell.textContent = val;
+                  }
+              });
+          });
+      }
+
+      function filterTable() {
+          let input = document.getElementById("filterInput");
+          let filter = input.value.toUpperCase();
+          let table = document.getElementById("infoTable");
+          let tr = table.getElementsByTagName("tr");
+
+          for (let i = 1; i < tr.length; i++) {
+              let tds = tr[i].getElementsByTagName("td");
+              let found = false;
+
+              for (let j = 0; j < tds.length; j++) {
+                  if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                      found = true;
+                      break;
+                  }
+              }
+              tr[i].style.display = found ? "" : "none";
+          }
+      }
     });
-
-    function includeHTML(callback) {
-        var z, i, elmnt, file, xhttp;
-        z = document.getElementsByTagName("*");
-        for (i = 0; i < z.length; i++) {
-            elmnt = z[i];
-            file = elmnt.getAttribute("include-html");
-            if (file) {
-                xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4) {
-                        if (this.status == 200) {
-                            elmnt.innerHTML = this.responseText;
-                        }
-                        if (this.status == 404) {
-                            elmnt.innerHTML = "Page not found.";
-                        }
-                        elmnt.removeAttribute("include-html");
-                        includeHTML(callback);
-                    }
-                };
-                xhttp.open("GET", file, true);
-                xhttp.send();
-                return;
-            }
-        }
-        if (callback) callback();
-    }
-
-    function loadInitialContent() {
-        Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
-            download: true,
-            header: true,
-            // preview: 100, // Load only first 100 records
-            complete: function (results) {
-                populateTable(results.data);
-                $("#infoTable").tablesorter();
-            }
-        });
-    }
-
-    // function loadRemainingData() {
-    //     Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/prank.csv", {
-    //         download: true,
-    //         header: true,
-    //         skipFirstNLines: 100, // Skip the first 100 records we've already loaded
-    //         complete: function (results) {
-    //             appendToTable(results.data);
-    //         }
-    //     });
-    // }
-
-    function populateTable(data) {
-        const table = document.getElementById("infoTable").getElementsByTagName("tbody")[0];
-        data.forEach(function (item) {
-            let row = table.insertRow();
-            // row.insertCell().textContent = rankCounter++; // Incrementing the pleb rank without repetition
-            Object.values(item).forEach(function (val, index) {
-                let cell = row.insertCell();
-                if (index === 11) {
-                    cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
-                } else {
-                    cell.textContent = val;
-                }
-            });
-        });
-    }
-
-    function appendToTable(data) {
-        const table = document.getElementById("infoTable").getElementsByTagName("tbody")[0];
-        data.forEach(function (item) {  
-            let row = table.insertRow();
-            row.insertCell().textContent = rankCounter++; // Continue incrementing the rank
-            Object.values(item).forEach(function (val, index) {
-                let cell = row.insertCell();
-                if (index === 11) {
-                    cell.innerHTML = `<a href="profile/details.html?alias=${encodeURIComponent(val)}" target="_blank">${val}</a>`;
-                } else {
-                    cell.textContent = val;
-                }
-            });
-        });
-        $("#infoTable").trigger("update");
-    }
-
-    function filterTable() {
-        let input = document.getElementById("filterInput");
-        let filter = input.value.toUpperCase();
-        let table = document.getElementById("infoTable");
-        let tr = table.getElementsByTagName("tr");
-        for (let i = 1; i < tr.length; i++) {
-            let tds = tr[i].getElementsByTagName("td");
-            let found = false;
-            for (let j = 0; j < tds.length; j++) {
-                if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
-                    found = true;
-                    break;
-                }
-            }
-            tr[i].style.display = found ? "" : "none";
-        }
-    }
-});
-
     </script>
-</body>
+  </body>
 </html>
