@@ -17,6 +17,13 @@
     
     <!-- Custom styles for this template-->
     <link href="css/style.min.css" rel="stylesheet" >
+
+    <style>
+        /* Hide the table by default */
+        #wrapper-one {
+            display: none;
+        }
+    </style>
 </head>
 
 <body onload="includeHTML()">
@@ -191,12 +198,18 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
+                      <li class="nav-item mt-4">
+                        <input type="text" id="filterInput" onkeyup="filterTable(); toggleTableVisibility()" placeholder="Search for Alias/PubKey...">
+
+
+                      </li>
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
+                            
                         </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -204,6 +217,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="pages/aboutUs.html">
+                              
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Contributors</span>
                             </a>
                         </li>
@@ -211,7 +225,7 @@
                     </ul>
 
                 </nav>
-          <div class="container-fluid">
+          <div class="container-fluid" id="container-fluid">
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -347,6 +361,50 @@
 
           </div>
         </div>
+<!-- extra Table -->
+<div id="wrapper-one">
+  
+  <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+         
+          <div class="container-fluid">
+        
+              <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                      <!-- <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for Alias/PubKey..."> -->
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table id="infoTable" class="tablesorter">
+                              <thead>
+                                  <tr>
+                                      <!-- <th>Pleb Rank</th> -->
+                                      <!-- <th>Betweenness Rank</th> -->
+                                      <!-- <th>Eigenvector Rank</th> -->
+                                      <!-- <th>Page Rank</th> -->
+                                      <!-- <th>Weighted Degree Rank</th> -->
+                                      <!-- <th>Channels Rank</th> -->
+                                      <!-- <th>Capacity Rank</th> -->
+                                      <!-- <th>Alias</th> -->
+                                      <th>Node Type</th>
+                                      <!-- <th>Total Capacity</th> -->
+                                      <!-- <th>Number of Channels</th> -->
+                                      <th>PubKey</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div include-html="includes/footer.html"></div>
+  </div>
+</div>
+<!-- extra Table -->
 
         <div include-html="pages/includes/footer.html"></div>
 
@@ -383,6 +441,142 @@
     <script src="js/line.js"></script>
     <script src="js/graph.js"></script>
     <script src="js/scriptOne.js"></script>
+
+    <script>
+        function toggleTableVisibility() {
+            const filterInput = document.getElementById("filterInput").value;
+            const table = document.getElementById("wrapper-one");
+            const container = document.getElementById("container-fluid");
+
+            if (filterInput.length > 0) {
+                // Show the table and hide container-fluid
+                table.style.display = "block";
+                container.style.display = "none";
+            } else {
+                // Hide the table and show container-fluid
+                table.style.display = "none";
+                container.style.display = "block";
+            }
+        }
+    </script>
+<!-- 
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // Step 1: Include HTML components (sidebar and navbar)
+      includeHTML(function() {
+          // Step 2: Load initial content and first 100 records
+          loadInitialContent();
+          
+          // Step 3: Load remaining data in the background
+          loadRemainingData();
+      });
+  });
+
+  function includeHTML(callback) {
+      var z, i, elmnt, file, xhttp;
+      z = document.getElementsByTagName("*");
+      for (i = 0; i < z.length; i++) {
+          elmnt = z[i];
+          file = elmnt.getAttribute("include-html");
+          if (file) {
+              xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                  if (this.readyState == 4) {
+                      if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                      if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                      elmnt.removeAttribute("include-html");
+                      includeHTML(callback);
+                  }
+              }      
+              xhttp.open("GET", file, true);
+              xhttp.send();
+              return;
+          }
+      }
+      if (callback) callback();
+  }
+
+  function loadInitialContent() {
+      Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/node_rank.csv", {
+          download: true,
+          header: true,
+          preview: 100, // Load only first 100 records
+          complete: function(results) {
+              populateTable(results.data);
+              $("#infoTable").tablesorter();
+          }
+      });
+  }
+
+  function loadRemainingData() {
+  Papa.parse("https://raw.githubusercontent.com/sorukumar/plebdashboard/main/data/node_rank.csv", {
+      download: true,
+      header: true,
+      skipEmptyLines: true,  // Skip empty lines if any
+      complete: function(results) {
+          const remainingData = results.data.slice(100);  // Slice to get only entries after the first 100
+          appendToTable(remainingData);
+      }
+  });
+}
+
+
+  function populateTable(data) {
+      const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+      data.forEach(function(item) {
+          let row = table.insertRow();
+          Object.values(item).forEach(function(val, index) {
+              let cell = row.insertCell();
+
+              if(index ===10){
+                  cell.textContent = Math.round(val);
+              }
+              else if (index === 11) {
+                  cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}">${val}</a>`;
+              } else {
+                  cell.textContent = val;
+              }
+          });
+      });
+  }
+
+  function appendToTable(data) {
+      const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+      data.forEach(function(item) {
+          let row = table.insertRow();
+          Object.values(item).forEach(function(val, index) {
+              let cell = row.insertCell();
+              if(index ===10){
+                  cell.textContent = Math.round(val);
+              }
+              else if (index === 11) {
+                  cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}">${val}</a>`;
+              } else {
+                  cell.textContent = val;
+              }
+          });
+      });
+      $("#infoTable").trigger("update");
+  }
+
+  function filterTable() {
+      let input = document.getElementById("filterInput");
+      let filter = input.value.toUpperCase();
+      let table = document.getElementById("infoTable");
+      let tr = table.getElementsByTagName("tr");
+      for (let i = 1; i < tr.length; i++) {
+          let tds = tr[i].getElementsByTagName("td");
+          let found = false;
+          for (let j = 0; j < tds.length; j++) {
+              if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                  found = true;
+                  break;
+              }
+          }
+          tr[i].style.display = found ? "" : "none";
+      }
+  }
+  </script> -->
 
   </body>
 </html>

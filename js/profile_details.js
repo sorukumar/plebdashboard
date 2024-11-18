@@ -213,6 +213,14 @@ function displayChannelTable(node) {
 
 // Function to display the Channel Size table
 function displayChannelSizeTable(node) {
+    // Helper function to format values
+    const formatToMillions = (value) => {
+        if (isNaN(value) || value === null || value === undefined) return 'N/A';
+        return value >= 1_000_000
+            ? `${Math.floor(value / 1_000_000)}M` // Convert to millions and remove decimals
+            : Math.floor(value).toLocaleString(); // Display the number without decimals, formatted with commas
+    };
+
     return `
     <div class="table-responsive mt-2">
         <table class="table table-sm table-bordered">
@@ -223,15 +231,18 @@ function displayChannelSizeTable(node) {
                 </tr>
             </thead>
             <tbody>
-                <tr><td>Average Channel Size</td><td>${node.Avg_Channel_Size || 'N/A'}</td></tr>
-                <tr><td>Max Channel Size</td><td>${node.Max_Channel_Size || 'N/A'}</td></tr>
-                <tr><td>Median Channel Size</td><td>${node.Median_Channel_Size || 'N/A'}</td></tr>
-                <tr><td>Min Channel Size</td><td>${node.Min_Channel_Size || 'N/A'}</td></tr>
-                <tr><td>Mode Channel Size</td><td>${node.Mode_Channel_Size || 'N/A'}</td></tr>
+                <tr><td>Average Channel Size</td><td>${formatToMillions(node.Avg_Channel_Size)}</td></tr>
+                <tr><td>Max Channel Size</td><td>${formatToMillions(node.Max_Channel_Size)}</td></tr>
+                <tr><td>Median Channel Size</td><td>${formatToMillions(node.Median_Channel_Size)}</td></tr>
+                <tr><td>Min Channel Size</td><td>${formatToMillions(node.Min_Channel_Size)}</td></tr>
+                <tr><td>Mode Channel Size</td><td>${formatToMillions(node.Mode_Channel_Size)}</td></tr>
             </tbody>
         </table>
     </div>`;
 }
+
+
+
 
 // Function to display the Base Fee table
 function displayBaseFeeTable(node) {
@@ -248,10 +259,14 @@ function displayBaseFeeTable(node) {
 
     for (const key in node) {
         if (key.endsWith('Base_Fee')) {
+            // Remove decimals using Math.floor or Math.round
+            let feeValue = node[key];
+            feeValue = (isNaN(feeValue) || feeValue === null || feeValue === undefined) ? 'N/A' : Math.floor(feeValue);
+
             html += `
                 <tr>
                     <td>${key}</td>
-                    <td>${node[key] || 'N/A'}</td>
+                    <td>${feeValue}</td>
                 </tr>`;
         }
     }
@@ -263,6 +278,7 @@ function displayBaseFeeTable(node) {
     
     return html; // Return the HTML for the Base Fee table
 }
+
 
 // Append all tables in a single row
 function appendTables(node) {
