@@ -225,6 +225,51 @@
                     </ul>
 
                 </nav>
+<!-- extra Table -->
+<div id="wrapper-one">
+  
+  <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+         
+          <div class="container-fluid">
+        
+              <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                      <!-- <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for Alias/PubKey..."> -->
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table id="infoTable" class="tablesorter">
+                              <thead>
+                                  <tr>
+                                      <!-- <th>Pleb Rank</th> -->
+                                      <!-- <th>Betweenness Rank</th> -->
+                                      <!-- <th>Eigenvector Rank</th> -->
+                                      <!-- <th>Page Rank</th> -->
+                                      <!-- <th>Weighted Degree Rank</th> -->
+                                      <!-- <th>Channels Rank</th> -->
+                                      <!-- <th>Capacity Rank</th> -->
+                                      <th>Alias</th>
+                                      <!-- <th>Node Type</th> -->
+                                      <!-- <th>Total Capacity</th> -->
+                                      <!-- <th>Number of Channels</th> -->
+                                      <th>PubKey</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+</div>
+<!-- extra Table -->
+
+
           <div class="container-fluid" id="container-fluid">
 
             <!-- Page Heading -->
@@ -361,50 +406,7 @@
 
           </div>
         </div>
-<!-- extra Table -->
-<div id="wrapper-one">
-  
-  <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-         
-          <div class="container-fluid">
-        
-              <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                      <!-- <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search for Alias/PubKey..."> -->
-                  </div>
-                  <div class="card-body">
-                      <div class="table-responsive">
-                          <table id="infoTable" class="tablesorter">
-                              <thead>
-                                  <tr>
-                                      <!-- <th>Pleb Rank</th> -->
-                                      <!-- <th>Betweenness Rank</th> -->
-                                      <!-- <th>Eigenvector Rank</th> -->
-                                      <!-- <th>Page Rank</th> -->
-                                      <!-- <th>Weighted Degree Rank</th> -->
-                                      <!-- <th>Channels Rank</th> -->
-                                      <!-- <th>Capacity Rank</th> -->
-                                      <!-- <th>Alias</th> -->
-                                      <th>Node Type</th>
-                                      <!-- <th>Total Capacity</th> -->
-                                      <!-- <th>Number of Channels</th> -->
-                                      <th>PubKey</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
 
-      <div include-html="includes/footer.html"></div>
-  </div>
-</div>
-<!-- extra Table -->
 
         <div include-html="pages/includes/footer.html"></div>
 
@@ -459,7 +461,7 @@
             }
         }
     </script>
-<!-- 
+<!-- for table -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
       // Step 1: Include HTML components (sidebar and navbar)
@@ -521,43 +523,79 @@
 }
 
 
-  function populateTable(data) {
-      const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
-      data.forEach(function(item) {
-          let row = table.insertRow();
-          Object.values(item).forEach(function(val, index) {
-              let cell = row.insertCell();
+// Function to populate the table with the first 100 rows
+function populateTable(data) {
+    // console.log("populateTable called with data:", data);
+    const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+    table.innerHTML = ''; // Clear existing table rows
 
-              if(index ===10){
-                  cell.textContent = Math.round(val);
-              }
-              else if (index === 11) {
-                  cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}">${val}</a>`;
-              } else {
-                  cell.textContent = val;
-              }
-          });
-      });
-  }
+    data.forEach(function (item, index) {
+        // Log the full object to inspect its structure
+        // console.log(`Row ${index + 1}:`, item);
 
-  function appendToTable(data) {
-      const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
-      data.forEach(function(item) {
-          let row = table.insertRow();
-          Object.values(item).forEach(function(val, index) {
-              let cell = row.insertCell();
-              if(index ===10){
-                  cell.textContent = Math.round(val);
-              }
-              else if (index === 11) {
-                  cell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(val)}">${val}</a>`;
-              } else {
-                  cell.textContent = val;
-              }
-          });
-      });
-      $("#infoTable").trigger("update");
-  }
+        // Access Alias and Pubkey based on the correct names
+        const alias = item['alias'] || "No Alias";  // Use 'alias' or fallback to "No Alias"
+        const pubkey = item['Public_Key'];  // Use 'Public_Key' for Pubkey (corrected)
+
+        // console.log(`Row ${index + 1} Alias: ${alias}, Pubkey: ${pubkey}`);
+
+        // Skip rows if neither Alias nor Pubkey exists
+        if (!pubkey && !alias) {
+            console.warn(`Skipping row ${index + 1} due to missing both Alias and Pubkey`);
+            return; // Skip this row if both are missing
+        }
+
+        // Add a new row to the table
+        let row = table.insertRow();
+
+        // Add Alias column (only if Alias exists)
+        let aliasCell = row.insertCell();
+        aliasCell.textContent = alias; // Display the alias, or "No Alias" if missing
+
+        // Add Pubkey column (only if Pubkey exists)
+        let pubkeyCell = row.insertCell();
+        if (pubkey) {
+          console.log("PubKey URL:", `profile_details.html?pub_key=${encodeURIComponent(pubkey)}`);
+
+            pubkeyCell.innerHTML = `<a href="pages/profile_details.html?pub_key=${encodeURIComponent(pubkey)}">${pubkey}</a>`;
+        } else {
+            pubkeyCell.textContent = "No Pubkey"; // Display "No Pubkey" if missing
+        }
+    });
+
+    // console.log("Table population complete!");
+}
+
+// Function to append remaining data (after first 100 records)
+function appendToTable(data) {
+    const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+
+    data.forEach(function(item) {
+        // Only insert Alias and Pubkey columns
+        const alias = item['alias'] || "No Alias";  // Use 'alias' or fallback to "No Alias"
+        const pubkey = item['Public_Key'];  // Use 'Public_Key' for Pubkey (corrected)
+
+        // Add a new row to the table
+        let row = table.insertRow();
+
+        // Add Alias column (only if Alias exists)
+        let aliasCell = row.insertCell();
+        aliasCell.textContent = alias; // Display the alias, or "No Alias" if missing
+
+        // Add Pubkey column (only if Pubkey exists)
+        let pubkeyCell = row.insertCell();
+        if (pubkey) {
+            pubkeyCell.innerHTML = `<a href="pages/profile_details.html?pub_key=${encodeURIComponent(pubkey)}">${pubkey}</a>`;
+        } else {
+            pubkeyCell.textContent = "No Pubkey"; // Display "No Pubkey" if missing
+        }
+    });
+
+    // Trigger table update if you're using a plugin (e.g., tablesorter)
+    $("#infoTable").trigger("update");
+}
+
+
 
   function filterTable() {
       let input = document.getElementById("filterInput");
@@ -576,7 +614,7 @@
           tr[i].style.display = found ? "" : "none";
       }
   }
-  </script> -->
+  </script>
 
   </body>
 </html>
