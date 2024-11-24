@@ -525,19 +525,19 @@
 
 // Function to populate the table with the first 100 rows
 function populateTable(data) {
-    console.log("populateTable called with data:", data);
+    // console.log("populateTable called with data:", data);
     const table = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
     table.innerHTML = ''; // Clear existing table rows
 
     data.forEach(function (item, index) {
         // Log the full object to inspect its structure
-        console.log(`Row ${index + 1}:`, item);
+        // console.log(`Row ${index + 1}:`, item);
 
         // Access Alias and Pubkey based on the correct names
         const alias = item['alias'] || "No Alias";  // Use 'alias' or fallback to "No Alias"
         const pubkey = item['Public_Key'];  // Use 'Public_Key' for Pubkey (corrected)
 
-        console.log(`Row ${index + 1} Alias: ${alias}, Pubkey: ${pubkey}`);
+        // console.log(`Row ${index + 1} Alias: ${alias}, Pubkey: ${pubkey}`);
 
         // Skip rows if neither Alias nor Pubkey exists
         if (!pubkey && !alias) {
@@ -555,13 +555,15 @@ function populateTable(data) {
         // Add Pubkey column (only if Pubkey exists)
         let pubkeyCell = row.insertCell();
         if (pubkey) {
-            pubkeyCell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(pubkey)}">${pubkey}</a>`;
+          console.log("PubKey URL:", `profile_details.html?pub_key=${encodeURIComponent(pubkey)}`);
+
+            pubkeyCell.innerHTML = `<a href="pages/profile_details.html?pub_key=${encodeURIComponent(pubkey)}">${pubkey}</a>`;
         } else {
             pubkeyCell.textContent = "No Pubkey"; // Display "No Pubkey" if missing
         }
     });
 
-    console.log("Table population complete!");
+    // console.log("Table population complete!");
 }
 
 // Function to append remaining data (after first 100 records)
@@ -583,7 +585,7 @@ function appendToTable(data) {
         // Add Pubkey column (only if Pubkey exists)
         let pubkeyCell = row.insertCell();
         if (pubkey) {
-            pubkeyCell.innerHTML = `<a href="profile_details.html?pub_key=${encodeURIComponent(pubkey)}">${pubkey}</a>`;
+            pubkeyCell.innerHTML = `<a href="pages/profile_details.html?pub_key=${encodeURIComponent(pubkey)}">${pubkey}</a>`;
         } else {
             pubkeyCell.textContent = "No Pubkey"; // Display "No Pubkey" if missing
         }
